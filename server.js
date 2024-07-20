@@ -6,7 +6,7 @@ const app = express();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BOT_ID = '1246411584658473012'; // Replace with your bot's client ID
-const REDIRECT_URI = process.env.REDIRECT_URI || 'http://localhost:3000/auth/callback';
+const REDIRECT_URI = 'https://zeeps.me/auth/callback'; // Ensure this matches your Discord redirect URI
 
 app.get('/auth/callback', async (req, res) => {
     const code = req.query.code;
@@ -43,7 +43,7 @@ app.get('/auth/callback', async (req, res) => {
         if (botInGuilds) {
             res.redirect('/dashboard'); // Redirect to the dashboard (to be coded later)
         } else {
-            res.redirect('https://discord.com/oauth2/authorize?client_id=1246411584658473012&permissions=268822614&integration_type=0&scope=bot');
+            res.redirect('https://discord.com/oauth2/authorize?client_id=1246411584658473012&permissions=275146729558&integration_type=0&scope=bot');
         }
     } catch (error) {
         console.error(error);
