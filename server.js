@@ -1,15 +1,14 @@
-require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const BOT_ID = '1246411584658473012'; // Replace with your bot's client ID
+const BOT_ID = '1246411584658473012';
+const REDIRECT_URI = process.env.REDIRECT_URI;
 
 app.get('/auth/callback', async (req, res) => {
     const code = req.query.code;
-    const redirectUri = `${req.protocol}://${req.get('host')}/auth/callback`;
 
     try {
         const tokenResponse = await axios.post('https://discord.com/api/oauth2/token', new URLSearchParams({
@@ -17,7 +16,7 @@ app.get('/auth/callback', async (req, res) => {
             client_secret: CLIENT_SECRET,
             grant_type: 'authorization_code',
             code: code,
-            redirect_uri: redirectUri
+            redirect_uri: REDIRECT_URI
         }).toString(), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
