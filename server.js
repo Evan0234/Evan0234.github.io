@@ -1,12 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
+const path = require('path');
 const app = express();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BOT_ID = '1246411584658473012'; // Replace with your bot's client ID
 const REDIRECT_URI = 'https://zeeps.me/auth/callback'; // Ensure this matches your Discord redirect URI
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/auth/callback', async (req, res) => {
     const code = req.query.code;
@@ -41,7 +44,9 @@ app.get('/auth/callback', async (req, res) => {
         const botInGuilds = userGuilds.some(guild => guild.id === BOT_ID);
 
         if (botInGuilds) {
-            res.redirect('/dashboard'); // Redirect to the dashboard (to be coded later)
+            // Set a cookie to indicate authentication success
+            res.cookie('authenticated', 'true', { maxAge: 86400000, httpOnly: true });
+            res.redirect('/dashboard');
         } else {
             res.redirect('https://discord.com/oauth2/authorize?client_id=1246411584658473012&permissions=275146729558&integration_type=0&scope=bot');
         }
@@ -49,6 +54,10 @@ app.get('/auth/callback', async (req, res) => {
         console.error(error);
         res.send('An error occurred while authenticating with Discord.');
     }
+});
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
 app.listen(3000, () => {
