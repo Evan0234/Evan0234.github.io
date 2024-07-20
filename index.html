@@ -28,11 +28,19 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+        .cookie-consent a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+        .cookie-consent a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="cookie-consent" id="cookieConsent">
-        <span>We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies. We only log your Discord login and remember your dark mode preference.</span>
+        <span>We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies. We only log your Discord login and remember your dark mode preference. See our <a href="/PrivacyPolicy">Privacy Policy</a> and <a href="/Terms">Terms of Service</a>.</span>
         <button onclick="acceptCookies()">Accept</button>
     </div>
 
