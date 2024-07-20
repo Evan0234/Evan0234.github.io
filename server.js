@@ -1,11 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const BOT_ID = '1246411584658473012';
-const REDIRECT_URI = process.env.REDIRECT_URI;
+const BOT_ID = '1246411584658473012'; // Replace with your bot's client ID
+const REDIRECT_URI = process.env.REDIRECT_URI || 'http://localhost:3000/auth/callback';
 
 app.get('/auth/callback', async (req, res) => {
     const code = req.query.code;
