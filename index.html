@@ -17,18 +17,21 @@
             background-color: #fff;
             color: #000;
         }
-        .toggle-container, .login-container {
+        .toggle-container, .login-container, .dashboard-container {
             position: fixed;
             right: 10px;
             z-index: 1000;
         }
         .toggle-container {
-            bottom: 50px;
+            bottom: 90px;
         }
         .login-container {
+            bottom: 50px;
+        }
+        .dashboard-container {
             bottom: 10px;
         }
-        .toggle-button, .login-button {
+        .toggle-button, .login-button, .dashboard-button {
             background: #4CAF50;
             color: white;
             border: none;
@@ -74,8 +77,12 @@
         <button class="toggle-button" onclick="toggleMode()">Toggle Light/Dark Mode</button>
     </div>
 
-    <div class="login-container">
+    <div class="login-container" id="loginContainer">
         <button class="login-button" onclick="loginWithDiscord()">Login with Discord</button>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+        <a href="/dashboard" class="dashboard-button">Go to Dashboard</a>
     </div>
 
     <div class="cookie-consent" id="cookieConsent">
@@ -130,6 +137,12 @@
             }
             // Adjust the position of the toggle button based on device type
             adjustTogglePosition();
+
+            // Show the dashboard link if the user is authenticated
+            if (getCookie("authenticated") === "true") {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('dashboardContainer').style.display = 'block';
+            }
         }
 
         // Function to toggle light/dark mode
