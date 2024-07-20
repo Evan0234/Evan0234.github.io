@@ -19,7 +19,6 @@
         }
         .toggle-container {
             position: fixed;
-            top: 10px;
             right: 10px;
             z-index: 1000;
         }
@@ -59,10 +58,13 @@
         .cookie-consent a:hover {
             text-decoration: underline;
         }
+        .cookie-consent span {
+            flex: 1;
+        }
     </style>
 </head>
 <body class="light-mode">
-    <div class="toggle-container">
+    <div class="toggle-container" id="toggleContainer">
         <button class="toggle-button" onclick="toggleMode()">Toggle Light/Dark Mode</button>
     </div>
 
@@ -85,7 +87,7 @@
             const cname = name + "=";
             const decodedCookie = decodeURIComponent(document.cookie);
             const ca = decodedCookie.split(';');
-            for (let i = 0; ca.length; i++) {
+            for (let i = 0; i < ca.length; i++) {
                 let c = ca[i];
                 while (c.charAt(0) === ' ') {
                     c = c.substring(1);
@@ -116,6 +118,8 @@
                 document.body.classList.add("light-mode");
                 document.body.classList.remove("dark-mode");
             }
+            // Adjust the position of the toggle button based on device type
+            adjustTogglePosition();
         }
 
         // Function to toggle light/dark mode
@@ -128,6 +132,19 @@
                 document.body.classList.add("light-mode");
                 document.body.classList.remove("dark-mode");
                 setCookie("darkMode", "false", 365);
+            }
+        }
+
+        // Function to adjust the position of the toggle button
+        function adjustTogglePosition() {
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            var toggleContainer = document.getElementById("toggleContainer");
+            if (isMobile) {
+                toggleContainer.style.top = "10px";
+                toggleContainer.style.bottom = "";
+            } else {
+                toggleContainer.style.top = "";
+                toggleContainer.style.bottom = "10px";
             }
         }
     </script>
