@@ -165,7 +165,7 @@
         // Function to initiate login with Discord
         function loginWithDiscord() {
             const clientId = '1246411584658473012';
-            const redirectUri = encodeURIComponent('http://localhost:3000/auth/callback'); // Update this if using a different URI
+            const redirectUri = encodeURIComponent('https://zeeps.me/auth/callback'); // Update this if using a different URI
             const scope = 'identify guilds';
             window.location.href = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
         }
