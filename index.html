@@ -75,7 +75,7 @@
     </div>
 
     <div class="login-container">
-        <button class="login-button" onclick="loginWithDiscord()">Invite Zeep#4870 to Your Server</button>
+        <button class="login-button" onclick="loginWithDiscord()">Login with Discord</button>
     </div>
 
     <div class="cookie-consent" id="cookieConsent">
@@ -162,9 +162,12 @@
             }
         }
 
-        // Function to initiate invite with Discord
+        // Function to initiate login with Discord
         function loginWithDiscord() {
-            window.location.href = 'https://discord.com/oauth2/authorize?client_id=1246411584658473012&permissions=268822614&integration_type=0&scope=bot';
+            const clientId = '1246411584658473012';
+            const redirectUri = encodeURIComponent('http://localhost:3000/auth/callback'); // Update this if using a different URI
+            const scope = 'identify guilds';
+            window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
         }
     </script>
 </body>
