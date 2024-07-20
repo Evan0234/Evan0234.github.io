@@ -7,7 +7,7 @@ const app = express();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BOT_ID = '1246411584658473012'; // Replace with your bot's client ID
-const REDIRECT_URI = 'https://zeeps.me/auth/callback'; // Ensure this matches your Discord redirect URI
+const REDIRECT_URI = process.env.REDIRECT_URI || 'https://zeeps.me/auth/callback';
 
 app.use(express.static(path.join(__dirname, 'public')));
 
