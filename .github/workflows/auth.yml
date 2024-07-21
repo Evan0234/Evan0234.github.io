@@ -1,35 +1,10 @@
-name: Authentication and Approval
+name: Approval Workflow
 
 on:
   issues:
     types: [opened, edited]
 
 jobs:
-  authenticate:
-    if: github.event.label.name == 'login'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Authenticate Admin
-        env:
-          ADMIN_USERNAME: ${{ secrets.MY_ADMIN_USERNAME }}
-          ADMIN_PASSWORD: ${{ secrets.MY_ADMIN_PASSWORD }}
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        run: |
-          issue_body=$(echo "${{ github.event.issue.body }}" | base64 --decode)
-          input_username=$(echo "$issue_body" | jq -r '.username')
-          input_password=$(echo "$issue_body" | jq -r '.password')
-          if [[ "$input_username" == "$ADMIN_USERNAME" && "$input_password" == "$ADMIN_PASSWORD" ]]; then
-            echo "Authentication successful"
-            curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-              -d '{"labels":["authenticated"]}' \
-              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels"
-          else
-            echo "Authentication failed"
-            curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-              -d '{"labels":["authentication_failed"]}' \
-              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels"
-          fi
-
   approve:
     if: github.event.label.name == 'approve'
     runs-on: ubuntu-latest
