@@ -1,62 +1,12 @@
 let blocks = [];
-let isLoggedIn = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    checkLoginState();
-    handleRouting();
+    showBuilder();
 });
 
-window.addEventListener('popstate', handleRouting);
-
-function checkLoginState() {
-    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-}
-
-function handleRouting() {
-    const path = window.location.pathname;
-    if (path === '/login') {
-        showLogin();
-    } else if (isLoggedIn) {
-        showBuilder();
-    } else {
-        window.location.href = '/login';
-    }
-}
-
-function showLogin() {
-    document.getElementById('login').classList.remove('hidden');
-    document.getElementById('builder').classList.add('hidden');
-    document.getElementById('approval').classList.add('hidden');
-}
-
 function showBuilder() {
-    document.getElementById('login').classList.add('hidden');
     document.getElementById('builder').classList.remove('hidden');
     document.getElementById('approval').classList.add('hidden');
-}
-
-function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    const request = new XMLHttpRequest();
-    request.open('POST', 'https://api.github.com/repos/your-github-username/your-repo/issues'); // Replace with your GitHub username and repository name
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status === 201) {
-                localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = '/';
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        }
-    };
-    request.send(JSON.stringify({
-        title: 'Admin Login Request',
-        body: btoa(JSON.stringify({ username, password })),
-        labels: ['login']
-    }));
 }
 
 function addBlock(type) {
@@ -106,7 +56,7 @@ function savePage() {
     const pageName = document.getElementById('pageName').value;
     const pageData = { name: pageName, blocks };
     const request = new XMLHttpRequest();
-    request.open('POST', 'https://api.github.com/repos/Evan0234/Evan0234.github.io'); // Replace with your GitHub username and repository name
+    request.open('POST', 'https://api.github.com/repos/yEvan0234/Evan0234.github.io'); // Replace with your GitHub username and repository name
     request.setRequestHeader('Content-Type', 'application/json');
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 201) {
