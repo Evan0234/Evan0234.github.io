@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeep Builder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div id="login" class="hidden">
+            <h2>Admin Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <div id="loginError" class="error hidden">Invalid credentials, please try again.</div>
+        </div>
+        <div id="builder" class="hidden">
+            <input type="text" id="pageName" placeholder="Page Name">
+            <button onclick="addBlock('text')">Add Text Block</button>
+            <button onclick="addBlock('image')">Add Image Block</button>
+            <button onclick="addBlock('video')">Add Video Block</button>
+            <div id="blocks"></div>
+            <button onclick="savePage()">Save Page</button>
+        </div>
+        <div id="approval" class="hidden">
+            <h2>Approval Dashboard</h2>
+            <div id="pendingPages"></div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
