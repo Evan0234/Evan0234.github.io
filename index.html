@@ -8,14 +8,7 @@
 </head>
 <body>
     <div id="app">
-        <div id="login" class="hidden">
-            <h2>Admin Login</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="login()">Login</button>
-            <div id="loginError" class="error hidden">Invalid credentials, please try again.</div>
-        </div>
-        <div id="builder" class="hidden">
+        <div id="builder">
             <input type="text" id="pageName" placeholder="Page Name">
             <button onclick="addBlock('text')">Add Text Block</button>
             <button onclick="addBlock('image')">Add Image Block</button>
