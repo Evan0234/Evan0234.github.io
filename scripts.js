@@ -2,8 +2,26 @@ let blocks = [];
 let isLoggedIn = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    showLogin();
+    checkLoginState();
+    handleRouting();
 });
+
+window.addEventListener('popstate', handleRouting);
+
+function checkLoginState() {
+    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+}
+
+function handleRouting() {
+    const path = window.location.pathname;
+    if (path === '/login') {
+        showLogin();
+    } else if (isLoggedIn) {
+        showBuilder();
+    } else {
+        window.location.href = '/login';
+    }
+}
 
 function showLogin() {
     document.getElementById('login').classList.remove('hidden');
@@ -17,12 +35,6 @@ function showBuilder() {
     document.getElementById('approval').classList.add('hidden');
 }
 
-function showApproval() {
-    document.getElementById('login').classList.add('hidden');
-    document.getElementById('builder').classList.add('hidden');
-    document.getElementById('approval').classList.remove('hidden');
-}
-
 function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -31,8 +43,13 @@ function login() {
     request.open('POST', 'https://api.github.com/repos/your-github-username/your-repo/issues'); // Replace with your GitHub username and repository name
     request.setRequestHeader('Content-Type', 'application/json');
     request.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 201) {
-            alert('Login request sent!');
+        if (this.readyState === 4) {
+            if (this.status === 201) {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = '/';
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
         }
     };
     request.send(JSON.stringify({
@@ -89,7 +106,7 @@ function savePage() {
     const pageName = document.getElementById('pageName').value;
     const pageData = { name: pageName, blocks };
     const request = new XMLHttpRequest();
-    request.open('POST', 'https://api.github.com/repos/Evan02334/Evan0234.github.io'); // Replace with your GitHub username and repository name
+    request.open('POST', 'https://api.github.com/repos/Evan0234/Evan0234.github.io'); // Replace with your GitHub username and repository name
     request.setRequestHeader('Content-Type', 'application/json');
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 201) {
