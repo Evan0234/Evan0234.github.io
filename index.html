@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Login System</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <h1>Login</h1>
     <div>
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
+        <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
         <button onclick="login()">Login</button>
         <button onclick="signup()">Sign Up</button>
     </div>
