@@ -144,7 +144,7 @@ function savePage() {
     const pageName = document.getElementById('pageName').value;
     const pageData = { name: pageName, blocks };
     const request = new XMLHttpRequest();
-    request.open('POST', 'https://api.github.com/repos/your-github-username/your-repo/issues'); // Replace with your GitHub username and repository name
+    request.open('POST', 'https://api.github.com/repos/Evan0234/Evan0234.github.io'); // Replace with your GitHub username and repository name
     request.setRequestHeader('Content-Type', 'application/json');
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 201) {
