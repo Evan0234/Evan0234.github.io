@@ -1,28 +1,6 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
-  authDomain: "zeeps-75fba.firebaseapp.com",
-  projectId: "zeeps-75fba",
-  storageBucket: "zeeps-75fba.appspot.com",
-  messagingSenderId: "593625338479",
-  appId: "1:593625338479:web:3fb257f3d8e10e0aa4f39a",
-  measurementId: "G-NE32QM5B99"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-
-// Handle routing
 document.addEventListener('DOMContentLoaded', () => {
     handleRouting();
-    onAuthStateChanged(auth, (user) => {
+    auth.onAuthStateChanged((user) => {
         if (user) {
             navigateTo('/');
         } else {
@@ -71,7 +49,7 @@ function signUp() {
     const email = document.getElementById('signUpEmail').value;
     const password = document.getElementById('signUpPassword').value;
 
-    createUserWithEmailAndPassword(auth, email, password)
+    auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             navigateTo('/');
         })
@@ -85,7 +63,7 @@ function login() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
-    signInWithEmailAndPassword(auth, email, password)
+    auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             navigateTo('/');
         })
