@@ -1,21 +1,31 @@
-name: Approval Workflow
+name: GitHub Pages
 
 on:
-  issues:
-    types: [opened, edited]
+  push:
+    branches:
+      - main  # Change this to your default branch
 
 jobs:
-  approve:
-    if: github.event.label.name == 'approve'
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Approve Page
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        run: |
-          issue_body=$(echo "${{ github.event.issue.body }}" | base64 --decode)
-          page_data=$(echo "$issue_body" | jq -r '.page_data')
-          echo "Page approved"
-          curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
-            -d '{"state":"closed"}' \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # Adjust this if your build output is in a different directory
