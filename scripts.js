@@ -24,16 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     handleRouting();
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            showBuilder();
+            navigateTo('/');
         } else {
-            const path = window.location.pathname;
-            if (path === '/login') {
-                showLogin();
-            } else if (path === '/sign-up') {
-                showSignUp();
-            } else {
-                window.location.href = '/login';
-            }
+            handleRouting();
         }
     });
 });
@@ -49,6 +42,11 @@ function handleRouting() {
     } else {
         showBuilder();
     }
+}
+
+function navigateTo(path) {
+    history.pushState(null, null, path);
+    handleRouting();
 }
 
 function showSignUp() {
@@ -75,7 +73,7 @@ function signUp() {
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            showBuilder();
+            navigateTo('/');
         })
         .catch((error) => {
             document.getElementById('signUpError').classList.remove('hidden');
@@ -89,7 +87,7 @@ function login() {
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            showBuilder();
+            navigateTo('/');
         })
         .catch((error) => {
             document.getElementById('loginError').classList.remove('hidden');
