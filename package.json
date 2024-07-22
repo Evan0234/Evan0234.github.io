@@ -1,0 +1,16 @@
+{
+  "name": "zeeps-builder",
+  "version": "1.0.0",
+  "description": "Zeep Builder",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r src/* dist/",
+    "start": "live-server dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
