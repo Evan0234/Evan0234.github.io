@@ -1,15 +1,12 @@
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
   // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
-    authDomain: "zeeps-75fba.firebaseapp.com",
+    authDomain: "zeeps.me",
     projectId: "zeeps-75fba",
     storageBucket: "zeeps-75fba.appspot.com",
     messagingSenderId: "593625338479",
@@ -19,5 +16,31 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  document.getElementById('signUpForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('signUpUsername').value;
+    const email = document.getElementById('signUpEmail').value;
+    const password = document.getElementById('signUpPassword').value;
+    const recaptchaResponse = grecaptcha.getResponse();
+
+    if (recaptchaResponse.length === 0) {
+      document.getElementById('signUpError').innerText = "Please complete the reCAPTCHA";
+      return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        // Add additional user info to your database if needed
+        alert("Sign Up Successful!");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        document.getElementById('signUpError').innerText = errorMessage;
+      });
+  });
 </script>
