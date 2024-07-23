@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="app.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +14,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
             overflow: hidden;
         }
         .rainbow-text {
@@ -35,6 +36,9 @@
     </style>
 </head>
 <body>
-    <div class="rainbow-text">nothing to see here</div>
+    <div class="container">
+        <button id="themeToggle">Toggle Light/Dark Mode</button>
+        <div class="rainbow-text">nothing to see here</div>
+    </div>
 </body>
 </html>
