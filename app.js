@@ -1,7 +1,5 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,56 +14,28 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
-function executeRecaptcha(action) {
-    return grecaptcha.execute('6LfSzhUqAAAAAEvB09kdQYPSlyZAhJfvqUaFF7v9', { action })
-        .then(token => {
-            return token;
-        });
-}
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const recaptchaResponse = grecaptcha.getResponse();
 
-window.signup = function() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  if (recaptchaResponse.length === 0) {
+    document.getElementById('loginError').innerText = "Please complete the reCAPTCHA";
+    return;
+  }
 
-    executeRecaptcha('signup').then(token => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                alert("User signed up: " + userCredential.user.email);
-                window.location.href = "https://zeeps.me/sign-up";
-            })
-            .catch((error) => {
-                alert("Error: " + error.message);
-            });
-    }).catch(error => {
-        alert("reCAPTCHA error: " + error.message);
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      alert("Login Successful!");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      document.getElementById('loginError').innerText = errorMessage;
     });
-}
-
-window.login = function() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    executeRecaptcha('login').then(token => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                alert("User logged in: " + userCredential.user.email);
-                window.location.href = "https://zeeps.me/login";
-            })
-            .catch((error) => {
-                alert("Error: " + error.message);
-            });
-    }).catch(error => {
-        alert("reCAPTCHA error: " + error.message);
-    });
-}
-
-window.logout = function() {
-    signOut(auth).then(() => {
-        alert("User logged out");
-    }).catch((error) => {
-        alert("Error: " + error.message);
-    });
-}
+});
