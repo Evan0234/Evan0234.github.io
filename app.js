@@ -34,6 +34,7 @@ window.signup = function() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 alert("User signed up: " + userCredential.user.email);
+                window.location.href = "https://zeeps.me/sign-up";
             })
             .catch((error) => {
                 alert("Error: " + error.message);
@@ -51,6 +52,7 @@ window.login = function() {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 alert("User logged in: " + userCredential.user.email);
+                window.location.href = "https://zeeps.me/login";
             })
             .catch((error) => {
                 alert("Error: " + error.message);
