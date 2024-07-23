@@ -19,42 +19,45 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
+function executeRecaptcha(action) {
+    return grecaptcha.execute('6LfSzhUqAAAAAEvB09kdQYPSlyZAhJfvqUaFF7v9', { action })
+        .then(token => {
+            return token;
+        });
+}
+
 window.signup = function() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const recaptchaResponse = grecaptcha.getResponse();
-    
-    if (recaptchaResponse.length === 0) {
-        alert("Please complete the reCAPTCHA");
-        return;
-    }
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            alert("User signed up: " + userCredential.user.email);
-        })
-        .catch((error) => {
-            alert("Error: " + error.message);
-        });
+    executeRecaptcha('signup').then(token => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                alert("User signed up: " + userCredential.user.email);
+            })
+            .catch((error) => {
+                alert("Error: " + error.message);
+            });
+    }).catch(error => {
+        alert("reCAPTCHA error: " + error.message);
+    });
 }
 
 window.login = function() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const recaptchaResponse = grecaptcha.getResponse();
-    
-    if (recaptchaResponse.length === 0) {
-        alert("Please complete the reCAPTCHA");
-        return;
-    }
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            alert("User logged in: " + userCredential.user.email);
-        })
-        .catch((error) => {
-            alert("Error: " + error.message);
-        });
+    executeRecaptcha('login').then(token => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                alert("User logged in: " + userCredential.user.email);
+            })
+            .catch((error) => {
+                alert("Error: " + error.message);
+            });
+    }).catch(error => {
+        alert("reCAPTCHA error: " + error.message);
+    });
 }
 
 window.logout = function() {
