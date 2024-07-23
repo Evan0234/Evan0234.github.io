@@ -20,12 +20,6 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
-  const recaptchaResponse = grecaptcha.getResponse();
-
-  if (recaptchaResponse.length === 0) {
-    document.getElementById('loginError').innerText = "Please complete the reCAPTCHA";
-    return;
-  }
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
