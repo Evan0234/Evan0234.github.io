@@ -5,11 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="module" src="app.js"></script>
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
+    <div id="loadingOverlay" class="loading-overlay">Loading...</div>
     <div class="container">
-        <button id="themeToggle">Toggle Light/Dark Mode</button>
         <h1>Login</h1>
         <form id="loginForm">
             <input type="email" id="loginEmail" placeholder="Email" required>
@@ -20,3 +37,4 @@
     </div>
 </body>
 </html>
+v
