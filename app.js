@@ -19,21 +19,23 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
   const pathname = window.location.pathname;
 
-  document.body.style.backgroundColor = 'black';
+  document.body.classList.add('loading');
 
   setTimeout(() => {
     if (user) {
       // User is signed in
       if (pathname !== '/dashboard') {
         window.location.href = '/dashboard';
+      } else {
+        document.body.classList.remove('loading');
       }
     } else {
       // No user is signed in
       if (pathname === '/dashboard') {
+        document.body.classList.remove('loading');
         window.location.href = '/login';
       } else {
-        document.getElementById('loadingOverlay').style.display = 'none';
-        document.body.style.backgroundColor = '';
+        document.body.classList.remove('loading');
       }
     }
   }, 3000);
