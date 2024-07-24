@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
-  if (user) {
+  if (user && !window.location.pathname.includes('dashboard.html')) {
     window.location.href = '/dashboard.html';
   }
 });
