@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
-
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
   authDomain: "zeeps-75fba.firebaseapp.com",
@@ -12,12 +12,13 @@ const firebaseConfig = {
   measurementId: "G-NE32QM5B99"
 };
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
-  if (!user && window.location.pathname === '/dashboard') {
+  const restrictedPaths = ['/dashboard', '/dashboard.html'];
+  if (!user && restrictedPaths.includes(window.location.pathname)) {
     window.location.href = '/login';
   }
 });
@@ -29,7 +30,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      
+      // Signed in
       const user = userCredential.user;
       alert("Login Successful!");
       window.location.href = '/dashboard';
@@ -47,7 +48,7 @@ themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light');
 });
 
-
+// Set initial theme
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   document.body.classList.add('dark');
 } else {
