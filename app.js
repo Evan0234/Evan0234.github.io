@@ -17,8 +17,18 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
-  if (user && !window.location.pathname.includes('dashboard.html')) {
-    window.location.href = '/dashboard.html';
+  const pathname = window.location.pathname;
+
+  if (user) {
+    // User is signed in
+    if (pathname !== '/dashboard') {
+      window.location.href = '/dashboard';
+    }
+  } else {
+    // No user is signed in
+    if (pathname === '/dashboard') {
+      window.location.href = '/login';
+    }
   }
 });
 
@@ -32,7 +42,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
       // Signed in
       const user = userCredential.user;
       alert("Login Successful!");
-      window.location.href = '/dashboard.html';
+      window.location.href = '/dashboard';
     })
     .catch((error) => {
       const errorCode = error.code;
