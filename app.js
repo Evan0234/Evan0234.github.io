@@ -16,9 +16,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Authentication state observer
 onAuthStateChanged(auth, (user) => {
-  if (user && !window.location.pathname.includes('dashboard.html')) {
-    window.location.href = '/dashboard.html';
+  const currentPath = window.location.pathname;
+  if (user) {
+    if (currentPath === '/login.html') {
+      window.location.href = '/dashboard.html';
+    }
+  } else {
+    if (currentPath === '/dashboard.html') {
+      window.location.href = '/login.html';
+    }
   }
 });
 
