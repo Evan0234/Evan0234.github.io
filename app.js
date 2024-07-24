@@ -19,9 +19,9 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
   const pathname = window.location.pathname;
 
-  setTimeout(() => {
-    document.getElementById('loadingOverlay').style.display = 'none';
+  document.body.style.backgroundColor = 'black';
 
+  setTimeout(() => {
     if (user) {
       // User is signed in
       if (pathname !== '/dashboard') {
@@ -31,6 +31,9 @@ onAuthStateChanged(auth, (user) => {
       // No user is signed in
       if (pathname === '/dashboard') {
         window.location.href = '/login';
+      } else {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        document.body.style.backgroundColor = '';
       }
     }
   }, 3000);
