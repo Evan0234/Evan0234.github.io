@@ -3,43 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             background-color: #f0f0f0;
             overflow: hidden;
         }
-        .rainbow-text {
-            font-size: 5em;
-            font-weight: bold;
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: rainbow 10s linear infinite;
+        .container {
+            text-align: center;
         }
-        @keyframes rainbow {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-        .loading {
-            background: black;
-            color: white; /* Set text color to white when loading */
+        .mode-switch {
+            margin-top: 20px;
         }
     </style>
 </head>
-<body class="loading">
-    <div class="rainbow-text">nothing to see here</div>
-    <script src="app.js"></script>
+<body>
+    <div class="container">
+        <h1>Welcome to Zeeps.me</h1>
+        <p>Please login to continue to the dashboard.</p>
+        <div class="mode-switch">
+            <label for="mode-toggle">Toggle Light/Dark Mode</label>
+            <input type="checkbox" id="mode-toggle">
+        </div>
+    </div>
+    
+    <script>
+        const toggleSwitch = document.querySelector('#mode-toggle');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
+        }
+
+        toggleSwitch.addEventListener('change', function (e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
 </body>
 </html>
