@@ -3,58 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            overflow: hidden;
-        }
-        .container {
-            text-align: center;
-        }
-        .mode-switch {
-            margin-top: 20px;
-        }
-    </style>
+    <title>Zeep</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Zeeps.me</h1>
-        <p>Please login to continue to the dashboard.</p>
-        <div class="mode-switch">
-            <label for="mode-toggle">Toggle Light/Dark Mode</label>
-            <input type="checkbox" id="mode-toggle">
-        </div>
+        <h1 class="rainbow-text">nothing to see here 🤭</h1>
     </div>
-    
-    <script>
-        const toggleSwitch = document.querySelector('#mode-toggle');
-        const currentTheme = localStorage.getItem('theme');
-
-        if (currentTheme) {
-            document.documentElement.setAttribute('data-theme', currentTheme);
-
-            if (currentTheme === 'dark') {
-                toggleSwitch.checked = true;
-            }
-        }
-
-        toggleSwitch.addEventListener('change', function (e) {
-            if (e.target.checked) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    </script>
 </body>
 </html>
