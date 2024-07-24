@@ -1,4 +1,4 @@
-const bannedIPs = ['123.456.789.000', '987.654.321.000']; // Example banned IPs
+const bannedIPs = ['23.27.114.89', '987.654.321.000']; // Example banned IPs
 
 // Fetch the user's IP address
 fetch('https://api.ipify.org?format=json')
