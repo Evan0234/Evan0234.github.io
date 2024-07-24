@@ -19,17 +19,21 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
   const pathname = window.location.pathname;
 
-  if (user) {
-    // User is signed in
-    if (pathname !== '/dashboard') {
-      window.location.href = '/dashboard';
+  setTimeout(() => {
+    document.getElementById('loadingOverlay').style.display = 'none';
+
+    if (user) {
+      // User is signed in
+      if (pathname !== '/dashboard') {
+        window.location.href = '/dashboard';
+      }
+    } else {
+      // No user is signed in
+      if (pathname === '/dashboard') {
+        window.location.href = '/login';
+      }
     }
-  } else {
-    // No user is signed in
-    if (pathname === '/dashboard') {
-      window.location.href = '/login';
-    }
-  }
+  }, 3000);
 });
 
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
