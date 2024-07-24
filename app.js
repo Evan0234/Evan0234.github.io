@@ -16,19 +16,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Authentication state observer
-onAuthStateChanged(auth, (user) => {
-  const currentPath = window.location.pathname;
-  if (user) {
-    if (currentPath === '/login.html') {
-      window.location.href = '/dashboard.html';
-    }
-  } else {
-    if (currentPath === '/dashboard.html') {
+// Redirect if user is not logged in and tries to access dashboard
+if (window.location.pathname === '/dashboard.html') {
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
       window.location.href = '/login.html';
     }
-  }
-});
+  });
+}
 
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -38,12 +33,10 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
-      const user = userCredential.user;
       alert("Login Successful!");
       window.location.href = '/dashboard.html';
     })
     .catch((error) => {
-      const errorCode = error.code;
       const errorMessage = error.message;
       document.getElementById('loginError').innerText = errorMessage;
     });
