@@ -1,4 +1,4 @@
-const bannedIPs = ['23.27.114.89', '987.654.321.000']; // Example banned IPs
+const bannedIPs = ['11.22.33.44', '987.654.321.000']; 
 
 function redirectToBannedPage() {
     if (window.location.pathname !== '/banned.html') {
@@ -6,7 +6,7 @@ function redirectToBannedPage() {
     }
 }
 
-// Fetch the user's IP address
+
 fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
     .then(data => {
@@ -15,7 +15,7 @@ fetch('https://api.ipify.org?format=json')
         if (bannedIPs.includes(userIP)) {
             redirectToBannedPage();
 
-            // Monitor the URL changes and redirect if necessary
+            
             const observer = new MutationObserver(() => {
                 if (window.location.pathname !== '/banned.html') {
                     redirectToBannedPage();
