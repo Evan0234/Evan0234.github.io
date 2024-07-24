@@ -7,39 +7,72 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             background-color: #f0f0f0;
             overflow: hidden;
         }
-        .rainbow-text {
-            font-size: 5em;
-            font-weight: bold;
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
+
+        #dashboard-content {
+            display: none;
+            font-size: 2em;
+            text-align: center;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
             -webkit-background-clip: text;
-            background-clip: text;
             color: transparent;
-            animation: rainbow 10s linear infinite;
+            animation: fadeIn 3s forwards;
         }
-        @keyframes rainbow {
+
+        @keyframes fadeIn {
             0% {
-                background-position: 0% 50%;
+                opacity: 0;
             }
             100% {
-                background-position: 100% 50%;
+                opacity: 1;
             }
         }
+
         .loading {
-            background: black;
-            color: white; /* Set text color to white when loading */
+            font-size: 1.5em;
         }
     </style>
 </head>
-<body class="loading">
-    <div class="rainbow-text">currently developing this page 😊</div>
-    <script src="app.js"></script>
+<body>
+    <div id="dashboard-content">currently developing this page 😊</div>
+    <div id="loading" class="loading">Loading...</div>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
+            authDomain: "zeeps-75fba.firebaseapp.com",
+            projectId: "zeeps-75fba",
+            storageBucket: "zeeps-75fba.appspot.com",
+            messagingSenderId: "593625338479",
+            appId: "1:593625338479:web:3fb257f3d8e10e0aa4f39a",
+            measurementId: "G-NE32QM5B99"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard-content').style.display = 'block';
+            } else {
+                window.location.href = 'https://zeeps.me/login';
+            }
+        });
+    </script>
 </body>
 </html>
