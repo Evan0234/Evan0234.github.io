@@ -4,75 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            overflow: hidden;
-        }
-
-        #dashboard-content {
-            display: none;
-            font-size: 2em;
-            text-align: center;
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: fadeIn 3s forwards;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .loading {
-            font-size: 1.5em;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
 </head>
 <body>
-    <div id="dashboard-content">currently developing this page 😊</div>
-    <div id="loading" class="loading">Loading...</div>
-
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-
-    <script>
-        // Your Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
-            authDomain: "zeeps-75fba.firebaseapp.com",
-            projectId: "zeeps-75fba",
-            storageBucket: "zeeps-75fba.appspot.com",
-            messagingSenderId: "593625338479",
-            appId: "1:593625338479:web:3fb257f3d8e10e0aa4f39a",
-            measurementId: "G-NE32QM5B99"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('dashboard-content').style.display = 'block';
-            } else {
-                window.location.href = 'https://zeeps.me/login';
-            }
-        });
-    </script>
+    <div class="container">
+        <div id="dashboardMessage" style="display:none;">
+            <h1 class="rainbow-text">currently developing this page 😊</h1>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
