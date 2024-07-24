@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,29 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-onAuthStateChanged(auth, (user) => {
-  const pathname = window.location.pathname;
-  document.body.classList.add('loading');
-
-  setTimeout(() => {
-    if (user) {
-      // User is signed in
-      if (pathname !== '/dashboard') {
-        window.location.href = '/dashboard';
-      } else {
-        document.body.classList.remove('loading');
-      }
-    } else {
-      // No user is signed in
-      if (pathname === '/dashboard') {
-        window.location.href = '/login';
-      } else {
-        document.body.classList.remove('loading');
-      }
-    }
-  }, 3000);
-});
-
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
@@ -49,7 +26,6 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
       // Signed in
       const user = userCredential.user;
       alert("Login Successful!");
-      window.location.href = '/dashboard';
     })
     .catch((error) => {
       const errorCode = error.code;
