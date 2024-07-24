@@ -18,7 +18,6 @@ const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
   const pathname = window.location.pathname;
-
   document.body.classList.add('loading');
 
   setTimeout(() => {
@@ -32,7 +31,6 @@ onAuthStateChanged(auth, (user) => {
     } else {
       // No user is signed in
       if (pathname === '/dashboard') {
-        document.body.classList.remove('loading');
         window.location.href = '/login';
       } else {
         document.body.classList.remove('loading');
