@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,6 +16,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = '/dashboard.html';
+  }
+});
+
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
@@ -26,6 +32,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
       // Signed in
       const user = userCredential.user;
       alert("Login Successful!");
+      window.location.href = '/dashboard.html';
     })
     .catch((error) => {
       const errorCode = error.code;
