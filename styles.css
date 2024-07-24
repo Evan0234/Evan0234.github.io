@@ -92,21 +92,3 @@ body.dark button[type="submit"] {
     color: red;
     margin-top: 10px;
 }
-
-/* Dashboard page */
-#dashboardMessage {
-    animation: fadeIn 3s;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.rainbow-text {
-    font-size: 3rem;
-    font-weight: bold;
-    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    -webkit-background-clip: text;
-    color: transparent;
-}
