@@ -10,6 +10,7 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -35,9 +36,6 @@
             }
         }
         #chatbot-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -46,10 +44,20 @@
             height: 60px;
             cursor: pointer;
             font-size: 30px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
         }
     </style>
 </head>
 <body>
+    <button id="themeToggle">Toggle Light/Dark Mode</button>
     <div class="rainbow-text">currently developing this page 😊</div>
     <button id="chatbot-button" onclick="window.location.href='/AI.html'">💬</button>
 </body>
