@@ -16,10 +16,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Check for authentication state changes
 onAuthStateChanged(auth, (user) => {
-  const restrictedPaths = ['/dashboard', '/dashboard.html'];
-  if (!user && restrictedPaths.includes(window.location.pathname)) {
-    window.location.href = '/login';
+  const bannedIPs = ["YOUR_BANNED_IP_ADDRESSES"]; // Add banned IPs here
+  const userIP = ""; // Get user's IP address
+
+  if (bannedIPs.includes(userIP)) {
+    window.location.href = '/banned.html';
+  } else {
+    if (!user && (window.location.pathname === '/dashboard' || window.location.pathname === '/dashboard.html')) {
+      window.location.href = '/login.html';
+    }
   }
 });
 
@@ -33,7 +40,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
       // Signed in
       const user = userCredential.user;
       alert("Login Successful!");
-      window.location.href = '/dashboard';
+      window.location.href = '/dashboard.html';
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -43,7 +50,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
 });
 
 const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
+themeToggle?.addEventListener('click', () => {
   document.body.classList.toggle('dark');
   document.body.classList.toggle('light');
 });
