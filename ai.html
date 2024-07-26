@@ -59,9 +59,15 @@
         .message.ai {
             text-align: left;
         }
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
+    <button id="themeToggle">Toggle Light/Dark Mode</button>
     <div class="chat-container">
         <div id="chatMessages" class="chat-messages"></div>
         <div class="chat-input">
@@ -84,7 +90,7 @@
             document.getElementById('chatInput').value = '';
 
             // Call the Google AI API
-            fetch('https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=GOOGLE_AI_API_KEY', {
+            fetch('https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=YOUR_GOOGLE_AI_API_KEY', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
