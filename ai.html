@@ -90,7 +90,7 @@
             document.getElementById('chatInput').value = '';
 
             // Call the Google AI API
-            fetch('https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=YOUR_GOOGLE_AI_API_KEY', {
+            fetch(`https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=${GOOGLE_AI_API_KEY}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
