@@ -53,6 +53,12 @@
             top: 20px;
             right: 20px;
         }
+        .visitor-counts {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +66,10 @@
     <div class="container">
         <div class="rainbow-text">nothing to see here</div>
         <button id="chatbot-button" onclick="window.location.href='/chat.html'">💬</button>
+        <div class="visitor-counts">
+            <div id="total-visitors">Total Visitors: 0</div>
+            <div id="current-visitors">Current Visitors: 0</div>
+        </div>
     </div>
 </body>
 </html>
