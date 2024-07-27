@@ -13,6 +13,11 @@
             background-color: var(--background-color-light);
             color: var(--text-color-light);
             padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             transition: background-color 0.3s, color 0.3s;
         }
         body.dark {
@@ -21,13 +26,13 @@
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
-        }
-        h1, h2 {
             text-align: center;
         }
+        h1, h2 {
+            margin: 0;
+        }
         p, ul {
-            margin-bottom: 20px;
+            margin: 10px 0;
         }
         #themeToggle {
             position: fixed;
