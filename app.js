@@ -1,4 +1,4 @@
-// Import the Firebase SDK
+ // Import the Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, increment, serverTimestamp, onDisconnect, push } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
@@ -39,4 +39,9 @@ onValue(visitorsRef, (snapshot) => {
 onValue(currentVisitorsRef, (snapshot) => {
     const currentVisitors = snapshot.size;
     document.getElementById('current-visitors').innerText = `Current Visitors: ${currentVisitors}`;
+});
+
+// Theme toggle functionality
+document.getElementById('themeToggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark');
 });
