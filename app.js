@@ -53,3 +53,8 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
 } else {
   document.body.classList.add('light');
 }
+
+// Redirection for ToS
+if (window.location.pathname === '/terms' || window.location.pathname === '/term') {
+  window.location.href = '/tos';
+}
