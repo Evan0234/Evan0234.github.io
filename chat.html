@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat</title>
+    <title>Chat</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="app.js"></script>
+    <script src="chat.js" defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,7 +56,11 @@
         .message.user {
             text-align: right;
         }
-        .message.ai {
+        .message.system {
+            text-align: center;
+            color: gray;
+        }
+        .message.other {
             text-align: left;
         }
         #themeToggle {
@@ -75,44 +79,5 @@
             <button id="sendButton">Send</button>
         </div>
     </div>
-    <script>
-        document.getElementById('sendButton').addEventListener('click', () => {
-            const message = document.getElementById('chatInput').value;
-            if (message.trim() === '') return;
-
-            // Display the user's message
-            const userMessageElement = document.createElement('div');
-            userMessageElement.textContent = `You: ${message}`;
-            userMessageElement.classList.add('message', 'user');
-            document.getElementById('chatMessages').appendChild(userMessageElement);
-
-            // Clear the input
-            document.getElementById('chatInput').value = '';
-
-            // Call the Google AI API
-            fetch(`https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=${GOOGLE_AI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "prompt": {
-                        "messages": [{ "author": "user", "content": message }]
-                    }
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Display the AI's response
-                const aiMessageElement = document.createElement('div');
-                aiMessageElement.textContent = `AI: ${data.candidates[0].content}`;
-                aiMessageElement.classList.add('message', 'ai');
-                document.getElementById('chatMessages').appendChild(aiMessageElement);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
 </body>
 </html>
