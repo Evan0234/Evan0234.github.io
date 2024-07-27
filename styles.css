@@ -1,62 +1,22 @@
 body {
-    --background-color-light: #f0f0f0;
-    --background-color-dark: #1f1f1f;
-    --text-color-light: #000;
-    --text-color-dark: #fff;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.5s, color 0.5s;
 }
 
 body.light {
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);
+    --background-color-light: #f0f0f0;
+    --background-color-dark: #333;
+    --text-color-light: #000;
+    --text-color-dark: #fff;
 }
 
 body.dark {
-    background-color: var(--background-color-dark);
-    color: var(--text-color-dark);
+    --background-color-light: #333;
+    --background-color-dark: #000;
+    --text-color-light: #fff;
+    --text-color-dark: #000;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 20px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-input {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-}
-
-h1 {
-    margin: 0;
-}
-
-#loginError {
-    color: red;
-    margin-top: 10px;
+body {
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
 }
