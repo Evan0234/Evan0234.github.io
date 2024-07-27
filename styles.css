@@ -1,22 +1,94 @@
+:root {
+    --background-color-light: #f0f0f0;
+    --background-color-dark: #2c2c2c;
+    --text-color-light: #000000;
+    --text-color-dark: #ffffff;
+    --input-background-light: #ffffff;
+    --input-background-dark: #3c3c3c;
+    --input-border-light: #cccccc;
+    --input-border-dark: #555555;
+}
+
 body {
-    transition: background-color 0.5s, color 0.5s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 body.light {
-    --background-color-light: #f0f0f0;
-    --background-color-dark: #333;
-    --text-color-light: #000;
-    --text-color-dark: #fff;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
 }
 
 body.dark {
-    --background-color-light: #333;
-    --background-color-dark: #000;
-    --text-color-light: #fff;
-    --text-color-dark: #000;
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
 }
 
-body {
-    background-color: var(--background-color-light);
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+}
+
+#themeToggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 1px solid currentColor;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+body.light input {
+    background-color: var(--input-background-light);
+    border-color: var(--input-border-light);
     color: var(--text-color-light);
+}
+
+body.dark input {
+    background-color: var(--input-background-dark);
+    border-color: var(--input-border-dark);
+    color: var(--text-color-dark);
+}
+
+button[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+body.light button[type="submit"] {
+    background-color: #007bff;
+}
+
+body.dark button[type="submit"] {
+    background-color: #0056b3;
+}
+
+#loginError {
+    color: red;
+    font-weight: bold;
 }
