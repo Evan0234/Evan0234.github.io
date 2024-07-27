@@ -14,17 +14,25 @@
             color: var(--text-color-light);
             padding: 20px;
             transition: background-color 0.3s, color 0.3s;
+            overflow-y: scroll;
         }
         body.dark {
             background-color: var(--background-color-dark);
             color: var(--text-color-dark);
         }
-        h1, h2 {
-            text-align: center;
-        }
         .container {
             max-width: 800px;
             margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        h1, h2 {
+            text-align: center;
         }
         p, ul {
             margin-bottom: 20px;
@@ -34,38 +42,67 @@
             top: 20px;
             right: 20px;
         }
+        section {
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+        }
+        section:nth-child(1) {
+            animation-delay: 0s;
+        }
+        section:nth-child(2) {
+            animation-delay: 3s;
+        }
+        section:nth-child(3) {
+            animation-delay: 6s;
+        }
+        section:nth-child(4) {
+            animation-delay: 9s;
+        }
+        section:nth-child(5) {
+            animation-delay: 12s;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <button id="themeToggle">Toggle Light/Dark Mode</button>
         <h1>Privacy Policy</h1>
-        <h2>1. Introduction</h2>
-        <p>We value your privacy very highly. Please read this Privacy Policy carefully before using the zeeps.me website operated by Zeeps.me.</p>
-        <h2>2. Information We Collect</h2>
-        <p>We may collect and store the following information about you:</p>
-        <ul>
-            <li>Email addresses</li>
-            <li>Login credentials</li>
-            <li>IP addresses</li>
-        </ul>
-        <h2>3. How We Use Your Information</h2>
-        <p>We use personal information collected via our website for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations.</p>
-        <p>We use the information we collect or receive:</p>
-        <ul>
-            <li>To facilitate account creation and logon process.</li>
-            <li>To send you marketing and promotional communications.</li>
-            <li>To post testimonials.</li>
-            <li>Request feedback.</li>
-            <li>To enforce our terms, conditions, and policies.</li>
-            <li>To respond to legal requests and prevent harm.</li>
-            <li>For other business purposes.</li>
-        </ul>
-        <h2>4. Sharing Your Information</h2>
-        <p>We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations.</p>
-        <h2>5. How We Protect Your Information</h2>
-        <p>We aim to protect your personal information through a system of organizational and technical security measures. However, despite our safeguards and efforts to secure your information, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security, and improperly collect, access, steal, or modify your information.</p>
-        <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@zeeps.me">support@zeeps.me</a>.</p>
+        <section>
+            <h2>1. Introduction</h2>
+            <p>We value your privacy very highly. Please read this Privacy Policy carefully before using the zeeps.me website operated by Zeeps.me.</p>
+        </section>
+        <section>
+            <h2>2. Information We Collect</h2>
+            <p>We may collect and store the following information about you:</p>
+            <ul>
+                <li>Email addresses</li>
+                <li>Login credentials</li>
+                <li>IP addresses</li>
+            </ul>
+        </section>
+        <section>
+            <h2>3. How We Use Your Information</h2>
+            <p>We use personal information collected via our website for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations.</p>
+            <p>We use the information we collect or receive:</p>
+            <ul>
+                <li>To facilitate account creation and logon process.</li>
+                <li>To send you marketing and promotional communications.</li>
+                <li>To post testimonials.</li>
+                <li>Request feedback.</li>
+                <li>To enforce our terms, conditions, and policies.</li>
+                <li>To respond to legal requests and prevent harm.</li>
+                <li>For other business purposes.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>4. Sharing Your Information</h2>
+            <p>We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations.</p>
+        </section>
+        <section>
+            <h2>5. How We Protect Your Information</h2>
+            <p>We aim to protect your personal information through a system of organizational and technical security measures. However, despite our safeguards and efforts to secure your information, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security, and improperly collect, access, steal, or modify your information.</p>
+            <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@zeeps.me">support@zeeps.me</a>.</p>
+        </section>
     </div>
 </body>
 </html>
