@@ -5,40 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="ban.js" defer></script>
+    <script type="module" src="app.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--background-color-light);
+            color: var(--text-color-light);
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark {
+            background-color: var(--background-color-dark);
+            color: var(--text-color-dark);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <button id="themeToggle">Toggle Light/Dark Mode</button>
         <h1>Terms of Service</h1>
-        <p>Last updated: July 27, 2024</p>
-
-        <h2>1. Introduction</h2>
-        <p>Welcome to Zeeps.me. By accessing or using our website, you agree to be bound by these terms of service and our privacy policy.</p>
-
+        <h2>1. Acceptance of Terms</h2>
+        <p>By using this site, you agree to comply with and be bound by the following terms and conditions. If you do not agree to these terms, you should not use this site.</p>
         <h2>2. Use of the Site</h2>
         <p>You agree to use the site only for lawful purposes and in a way that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the site.</p>
-
         <h2>3. Account Registration</h2>
         <p>When you create an account with us, you must provide us with information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the terms, which may result in immediate termination of your account.</p>
-
         <h2>4. User Content</h2>
         <p>You are responsible for the content that you post on or through the site, including its legality, reliability, and appropriateness. By posting content on or through the site, you grant us the right and license to use, modify, publicly perform, publicly display, reproduce, and distribute such content on and through the site.</p>
-
         <h2>5. Termination</h2>
         <p>We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the terms.</p>
-
         <h2>6. Limitation of Liability</h2>
         <p>In no event shall Zeeps.me, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your use of or inability to use the site; (ii) any unauthorized access to or use of our servers and/or any personal information stored therein.</p>
-
         <h2>7. Governing Law</h2>
-        <p>These terms shall be governed and construed in accordance with the laws of USA, without regard to its conflict of law provisions.</p>
-
-        <h2>8. Changes to the Terms</h2>
-        <p>We reserve the right, at our sole discretion, to modify or replace these terms at any time. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our site after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the site.</p>
-
-        <h2>9. Contact Us</h2>
-        <p>If you have any questions about these terms, please contact us at support@zeeps.me.</p>
+        <p>These terms shall be governed and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.</p>
+        <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@zeeps.me">support@zeeps.me</a>.</p>
     </div>
-    <script type="module" src="app.js" defer></script>
 </body>
 </html>
