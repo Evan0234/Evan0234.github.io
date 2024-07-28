@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const ipBanTableBody = document.getElementById('ipBanTableBody');
     const banForm = document.getElementById('banForm');
+    const unbanForm = document.getElementById('unbanForm');
     const ipAddressInput = document.getElementById('ipAddress');
     const banReasonInput = document.getElementById('banReason');
+    const unbanIpAddressInput = document.getElementById('unbanIpAddress');
+    const banReasonElement = document.getElementById('banReason');
 
     // Initialize Firebase
     const app = firebase.app();
@@ -45,17 +48,42 @@ document.addEventListener('DOMContentLoaded', function() {
         banForm.reset();
     });
 
+    unbanForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const ipToUnban = unbanIpAddressInput.value;
+
+        database.ref('bannedIPs').orderByChild('ip').equalTo(ipToUnban).once('value', snapshot => {
+            const bans = snapshot.val();
+            if (bans) {
+                Object.keys(bans).forEach(key => {
+                    database.ref('bannedIPs').child(key).remove();
+                });
+            }
+            loadBannedIPs();
+        });
+        
+        unbanForm.reset();
+    });
+
     function checkIPBan() {
+        const currentIP = '127.0.0.1'; // Placeholder for real IP check
         database.ref('bannedIPs').once('value', snapshot => {
             const bannedIPs = snapshot.val() || {};
-            const currentIP = '127.0.0.1'; // Placeholder for real IP check
+            const ban = Object.values(bannedIPs).find(ban => ban.ip === currentIP);
 
-            if (Object.values(bannedIPs).some(ban => ban.ip === currentIP)) {
+            if (ban) {
+                if (banReasonElement) {
+                    banReasonElement.textContent = `Reason: ${ban.reason}`;
+                }
                 window.location.href = 'banned.html';
             }
         });
     }
 
-    checkIPBan();
-    loadBannedIPs();
+    if (window.location.pathname.endsWith('banned.html')) {
+        checkIPBan();
+    } else {
+        checkIPBan();
+        loadBannedIPs();
+    }
 });
