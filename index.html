@@ -3,105 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Login Page</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .rainbow-text {
-            font-size: 5em;
-            font-weight: bold;
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: rainbow 10s linear infinite;
-        }
-        @keyframes rainbow {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-        #consentModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-        .modal-content a {
-            color: blue;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .modal-content button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .modal-content button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="firebaseConfig.js"></script>
 </head>
 <body>
     <div class="container">
-        <button id="themeToggle">Toggle Light/Dark Mode</button>
-        <div class="rainbow-text">nothing to see here</div>
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
     </div>
-
-    <div id="consentModal">
-        <div class="modal-content">
-            <p>Please accept our <a href="tos.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
-            <button id="acceptBtn">I Accept</button>
-        </div>
-    </div>
-
-    <script src="ban.js" defer></script>
-    <script type="module" src="app.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const consentModal = document.getElementById('consentModal');
-            const acceptBtn = document.getElementById('acceptBtn');
-
-            const hasAccepted = localStorage.getItem('hasAcceptedPolicies');
-
-            if (hasAccepted) {
-                consentModal.style.display = 'none';
-            }
-
-            acceptBtn.addEventListener('click', function() {
-                localStorage.setItem('hasAcceptedPolicies', 'true');
-                consentModal.style.display = 'none';
-            });
-        });
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>
