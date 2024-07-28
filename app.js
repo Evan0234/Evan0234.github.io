@@ -1,7 +1,8 @@
 // app.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
   authDomain: "zeeps-75fba.firebaseapp.com",
@@ -12,29 +13,55 @@ const firebaseConfig = {
   measurementId: "G-NE32QM5B99"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const loginForm = document.getElementById("loginForm");
-const loginEmail = document.getElementById("loginEmail");
-const loginPassword = document.getElementById("loginPassword");
-const loginError = document.getElementById("loginError");
+// Redirect to login if user is not authenticated
+onAuthStateChanged(auth, (user) => {
+    const bannedIPs = ["123.456.789.0", "987.654.321.0"];
+    fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => {
+            if (bannedIPs.includes(data.ip)) {
+                window.location.href = "/banned";
+            }
+        });
 
-loginForm.addEventListener("submit", (e) => {
+    if (!user && window.location.pathname === '/dashboard') {
+        window.location.href = '/login';
+    } else if (user && window.location.pathname === '/dashboard.html') {
+        window.location.href = '/dashboard';
+    }
+});
+
+document.getElementById('loginForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = loginEmail.value;
-    const password = loginPassword.value;
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            window.location.href = "/dashboard";
+            alert("Login Successful!");
+            window.location.href = '/dashboard';
         })
         .catch((error) => {
-            loginError.textContent = "Error: " + error.message;
+            const errorMessage = error.message;
+            document.getElementById('loginError').innerText = errorMessage;
         });
 });
 
-const themeToggle = document.getElementById("themeToggle");
-themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-});
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        document.body.classList.toggle('light');
+    });
+
+    // Set initial theme
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.add('light');
+    }
+}
