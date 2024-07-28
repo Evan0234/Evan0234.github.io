@@ -5,49 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="ban.js" defer></script>
-    <script type="module" src="app.js" defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
             max-width: 800px;
-            margin: auto;
+            width: 100%;
+            margin: 0 auto;
+            text-align: left;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 100vh;
         }
-        h1 {
-            text-align: center;
+        h1, h2 {
+            margin: 0;
+            padding-bottom: 10px;
         }
-        h2 {
-            margin-top: 20px;
+        p, ul {
+            margin: 10px 0;
         }
-        p {
-            line-height: 1.6;
+        ul {
+            padding-left: 20px;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Privacy Policy</h1>
-    <p>Last updated: [Date]</p>
-
-    <h2>Introduction</h2>
-    <p>Welcome to Zeep's Privacy Policy. Your privacy is critically important to us. This Privacy Policy document outlines the types of information that are collected and recorded by Zeep and how we use it.</p>
-
-    <h2>Information We Collect</h2>
-    <p>We collect the following information to provide and improve our service to you:</p>
-    <ul>
-        <li>Email address and password: Collected when you register and log in to our site.</li>
-        <li>IP address: Collected to enforce bans and ensure site security.</li>
-    </ul>
-
-    <h2>How We Use Your Information</h2>
-    <p>We use the information we collect in the following ways:</p>
-    <ul>
-        <li>To provide and maintain our Service.</li>
-        <li>To notify you about changes to our Service.</li>
-        <li>To allow you to participate in interactive features of our Service when you choose to do so.</li>
-        <li>To provide customer support.</li>
-        <li>To detect, prevent, and address technical issues.</li>
-    </ul>
-
-    <h2>Log Files</h2>
-    <p>Zeep follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP)
+    <div class="container">
+        <button id="themeToggle">Toggle Light/Dark Mode</button>
+        <h1>Privacy Policy</h1>
+        <section>
+            <h2>1. Introduction</h2>
+            <p>We value your privacy very highly. Please read this Privacy Policy carefully before using the zeeps.me website operated by Zeeps.me.</p>
+        </section>
+        <section>
+            <h2>2. Information We Collect</h2>
+            <p>We may collect and store the following information about you:</p>
+            <ul>
+                <li>Email addresses</li>
+                <li>Login credentials</li>
+                <li>IP addresses</li>
+                <li>Acceptance of Terms of Service and Privacy Policy</li>
+            </ul>
+        </section>
+        <section>
+            <h2>3. How We Use Your Information</h2>
+            <p>We use personal information collected via our website for a variety of business purposes described below:</p>
+            <ul>
+                <li>To provide and manage services</li>
+                <li>To improve our website</li>
+                <li>To send periodic emails regarding your order or other products and services</li>
+            </ul>
+        </section>
+        <section>
+            <h2>4. Data Security</h2>
+            <p>We implement a variety of security measures to maintain the safety of your personal information when you enter, submit, or access your personal information.</p>
+        </section>
+        <section>
+            <h2>5. Changes to this Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time in order to reflect changes to our practices or for other operational, legal, or regulatory reasons.</p>
+        </section>
+        <section>
+            <h2>6. Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at support@zeeps.me.</p>
+        </section>
+    </div>
+    <script src="ban.js" defer></script>
+    <script type="module" src="app.js" defer></script>
+</body>
+</html>
