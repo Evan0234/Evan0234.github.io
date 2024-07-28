@@ -58,3 +58,20 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
 if (window.location.pathname === '/terms' || window.location.pathname === '/term') {
   window.location.href = '/tos';
 }
+
+// Show consent modal if not on ToS or Privacy Policy pages and if not already accepted
+document.addEventListener('DOMContentLoaded', function() {
+  const consentModal = document.getElementById('consentModal');
+  const acceptBtn = document.getElementById('acceptBtn');
+
+  const hasAccepted = localStorage.getItem('hasAcceptedPolicies');
+
+  if (!hasAccepted && window.location.pathname !== '/tos.html' && window.location.pathname !== '/privacy.html') {
+    consentModal.style.display = 'flex';
+  }
+
+  acceptBtn.addEventListener('click', function() {
+    localStorage.setItem('hasAcceptedPolicies', 'true');
+    consentModal.style.display = 'none';
+  });
+});
