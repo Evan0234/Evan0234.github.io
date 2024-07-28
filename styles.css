@@ -1,94 +1,83 @@
-:root {
-    --background-color-light: #f0f0f0;
-    --background-color-dark: #2c2c2c;
-    --text-color-light: #000000;
-    --text-color-dark: #ffffff;
-    --input-background-light: #ffffff;
-    --input-background-dark: #3c3c3c;
-    --input-border-light: #cccccc;
-    --input-border-dark: #555555;
-}
-
 body {
-    transition: background-color 0.3s, color 0.3s;
-}
-
-body.light {
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);
-}
-
-body.dark {
-    background-color: var(--background-color-dark);
-    color: var(--text-color-dark);
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    position: relative;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#themeToggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: transparent;
-    border: 1px solid currentColor;
-    cursor: pointer;
+h1 {
+    margin-bottom: 20px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 300px;
-}
-
-input {
+input, textarea {
+    display: block;
+    width: 100%;
     padding: 10px;
-    border: 1px solid;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    outline: none;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
-body.light input {
-    background-color: var(--input-background-light);
-    border-color: var(--input-border-light);
-    color: var(--text-color-light);
-}
-
-body.dark input {
-    background-color: var(--input-background-dark);
-    border-color: var(--input-border-dark);
-    color: var(--text-color-dark);
-}
-
-button[type="submit"] {
-    padding: 10px;
+button {
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     background-color: #007bff;
-    color: #ffffff;
+    color: #fff;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
 }
 
-body.light button[type="submit"] {
-    background-color: #007bff;
-}
-
-body.dark button[type="submit"] {
+button:hover {
     background-color: #0056b3;
 }
 
-#loginError {
-    color: red;
-    font-weight: bold;
+.dark-theme {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-theme .container {
+    background-color: #444;
+    color: #fff;
+}
+
+.admin-section {
+    margin-top: 20px;
+}
+
+.admin-section h2 {
+    margin-bottom: 10px;
+}
+
+.ban-form {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
 }
