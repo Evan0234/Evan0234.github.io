@@ -11,99 +11,43 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            margin: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        .container {
             max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-            text-align: left;
-            padding: 20px;
-            overflow-y: auto;
-            max-height: 100vh;
+            margin: auto;
         }
-        h1, h2 {
-            margin: 0;
-            padding-bottom: 10px;
+        h1 {
+            text-align: center;
         }
-        p, ul {
-            margin: 10px 0;
+        h2 {
+            margin-top: 20px;
         }
-        ul {
-            padding-left: 20px;
-        }
-        #themeToggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        p {
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <button id="themeToggle">Toggle Light/Dark Mode</button>
-        <h1>Privacy Policy</h1>
-        <section>
-            <h2>1. Introduction</h2>
-            <p>We value your privacy very highly. Please read this Privacy Policy carefully before using the zeeps.me website operated by Zeeps.me.</p>
-        </section>
-        <section>
-            <h2>2. Information We Collect</h2>
-            <p>We may collect and store the following information about you:</p>
-            <ul>
-                <li>Email addresses</li>
-                <li>Login credentials</li>
-                <li>IP addresses</li>
-                <li>Acceptance of Terms of Service and Privacy Policy</li>
-            </ul>
-        </section>
-        <section>
-            <h2>3. How We Use Your Information</h2>
-            <p>We use personal information collected via our website for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations.</p>
-            <p>We use the information we collect or receive:</p>
-            <ul>
-                <li>To facilitate account creation and logon process.</li>
-                <li>To send you marketing and promotional communications.</li>
-                <li>To post testimonials.</li>
-                <li>Request feedback.</li>
-                <li>To enforce our terms, conditions, and policies.</li>
-                <li>To respond to legal requests and prevent harm.</li>
-                <li>For other business purposes.</li>
-                <li>To remember your acceptance of our Terms of Service and Privacy Policy.</li>
-                <li>To analyze the device type and adapt content accordingly.</li>
-            </ul>
-        </section>
-        <section>
-            <h2>4. Sharing Your Information</h2>
-            <p>We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations.</p>
-        </section>
-        <section>
-            <h2>5. How We Protect Your Information</h2>
-            <p>We aim to protect your personal information through a system of organizational and technical security measures. However, despite our safeguards and efforts to secure your information, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security, and improperly collect, access, steal, or modify your information.</p>
-            <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@zeeps.me">support@zeeps.me</a>.</p>
-        </section>
-    </div>
+    <h1>Privacy Policy</h1>
+    <p>Last updated: [Date]</p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            let deviceType = 'desktop';
+    <h2>Introduction</h2>
+    <p>Welcome to Zeep's Privacy Policy. Your privacy is critically important to us. This Privacy Policy document outlines the types of information that are collected and recorded by Zeep and how we use it.</p>
 
-            if (/iphone|ipad|ipod/.test(userAgent)) {
-                deviceType = 'iOS device';
-            } else if (/android/.test(userAgent)) {
-                deviceType = 'Android device';
-            } else if (/windows phone/.test(userAgent)) {
-                deviceType = 'Windows Phone';
-            }
+    <h2>Information We Collect</h2>
+    <p>We collect the following information to provide and improve our service to you:</p>
+    <ul>
+        <li>Email address and password: Collected when you register and log in to our site.</li>
+        <li>IP address: Collected to enforce bans and ensure site security.</li>
+    </ul>
 
-            const deviceInfoSection = document.createElement('section');
-            deviceInfoSection.innerHTML = `<h2>6. Device Information</h2>
-                                            <p>We have detected that you are using a ${deviceType}. This information helps us to optimize your experience on our site.</p>`;
-            document.querySelector('.container').appendChild(deviceInfoSection);
-        });
-    </script>
-</body>
-</html>
+    <h2>How We Use Your Information</h2>
+    <p>We use the information we collect in the following ways:</p>
+    <ul>
+        <li>To provide and maintain our Service.</li>
+        <li>To notify you about changes to our Service.</li>
+        <li>To allow you to participate in interactive features of our Service when you choose to do so.</li>
+        <li>To provide customer support.</li>
+        <li>To detect, prevent, and address technical issues.</li>
+    </ul>
+
+    <h2>Log Files</h2>
+    <p>Zeep follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP)
