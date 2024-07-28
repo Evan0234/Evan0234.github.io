@@ -1,90 +1,40 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
 }
 
 .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-h1 {
-    margin-bottom: 20px;
+#themeToggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
-input, textarea {
-    display: block;
-    width: 100%;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+input, button {
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    font-size: 1em;
 }
 
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.dark-theme {
-    background-color: #333;
-    color: #fff;
-}
-
-.dark-theme .container {
-    background-color: #444;
-    color: #fff;
-}
-
-.admin-section {
-    margin-top: 20px;
-}
-
-.admin-section h2 {
-    margin-bottom: 10px;
-}
-
-.ban-form, .unban-form {
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-table th, table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-}
-
-table th {
-    background-color: #f9f9f9;
-}
-
-.actions button {
-    background-color: #dc3545;
-}
-
-.actions button:hover {
-    background-color: #c82333;
+#loginError {
+    color: red;
+    margin-top: 10px;
 }
