@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkLogin() {
         firebase.auth().onAuthStateChanged(user => {
             if (!user) {
-                window.location.href = 'index.html'; // Redirect to login page
+                window.location.href = 'index.html'; 
             } else {
-                loadBannedIPs(); // Load banned IPs for the admin dashboard
+                loadBannedIPs(); 
             }
         });
     }
