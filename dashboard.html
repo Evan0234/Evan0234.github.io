@@ -3,54 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script src="firebaseConfig.js"></script>
+    <script src="ban.js" defer></script>
+    <script type="module" src="app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        .rainbow-text {
+            font-size: 5em;
+            font-weight: bold;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 10s linear infinite;
+        }
+        @keyframes rainbow {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <button id="themeToggle">Toggle Light/Dark Mode</button>
-        <h1>Admin Dashboard</h1>
-
-        <div class="admin-section">
-            <h2>IP Banning</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>IP Address</th>
-                        <th>Reason</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="ipBanTableBody">
-
-                </tbody>
-            </table>
-
-            <div class="ban-form">
-                <h3>Add IP Ban</h3>
-                <form id="banForm">
-                    <input type="text" id="ipAddress" placeholder="IP Address" required>
-                    <textarea id="banReason" placeholder="Reason for banning" required></textarea>
-                    <button type="submit">Ban IP</button>
-                </form>
-            </div>
-
-            <div class="unban-form">
-                <h3>Unban IP</h3>
-                <form id="unbanForm">
-                    <input type="text" id="unbanIpAddress" placeholder="IP Address" required>
-                    <button type="submit">Unban IP</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="ban.js" defer></script>
-    <script type="module" src="app.js" defer></script>
+    <div class="rainbow-text">currently developing this page �</div>
 </body>
 </html>
