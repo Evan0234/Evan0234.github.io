@@ -1,26 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const banReasonElement = document.getElementById('banReason');
+// ban.js
+const bannedIPs = ["123.456.789.0", "987.654.321.0"]; // Add banned IPs here
 
-    // Initialize Firebase
-    const app = firebase.app();
-    const database = firebase.database();
-
-    function checkIPBan() {
-        const currentIP = '127.0.0.1'; 
-        database.ref('bannedIPs').once('value', snapshot => {
-            const bannedIPs = snapshot.val() || {};
-            const ban = Object.values(bannedIPs).find(ban => ban.ip === currentIP);
-
-            if (ban) {
-                if (banReasonElement) {
-                    banReasonElement.textContent = `Reason: ${ban.reason}`;
-                }
-                window.location.href = 'banned.html';
-            }
-        });
-    }
-
-    if (window.location.pathname.endsWith('banned.html')) {
-        checkIPBan();
-    }
-});
+const userIP = fetch("https://api.ipify.org?format=json")
+    .then(response => response.json())
+    .then(data => {
+        if (bannedIPs.includes(data.ip)) {
+            window.location.href = "https://zeeps.me/banned";
+        }
+    })
+    .catch(error => console.error("Error fetching IP address:", error));
