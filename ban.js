@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             loadBannedIPs();
         });
-        
+
         unbanForm.reset();
     });
 
@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.endsWith('banned.html')) {
         checkIPBan();
     } else {
-        checkIPBan();
         loadBannedIPs();
     }
 });
