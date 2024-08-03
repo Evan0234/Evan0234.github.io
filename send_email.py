@@ -3,18 +3,18 @@ import sys
 import os
 
 def send_email(recipient_email):
-    # Get API key from environment variables
+    
     api_key = os.getenv('TESTMAIL_API_KEY')
     
-    # Email content
+
     sender_email = "noreply@example.com"
     subject = "Test Email"
     body = "This is a test email sent using Testmail.app API."
 
-    # API endpoint for sending emails (adjust based on testmail.app documentation)
+    
     api_endpoint = "https://api.testmail.app/send"
 
-    # Prepare the payload
+    
     payload = {
         'from': sender_email,
         'to': recipient_email,
