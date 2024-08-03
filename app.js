@@ -1,8 +1,6 @@
-// app.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
   authDomain: "zeeps-75fba.firebaseapp.com",
@@ -13,11 +11,9 @@ const firebaseConfig = {
   measurementId: "G-NE32QM5B99"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Redirect to login if user is not authenticated
 onAuthStateChanged(auth, (user) => {
     const bannedIPs = ["123.456.789.0", "987.654.321.0"];
     fetch("https://api.ipify.org?format=json")
@@ -58,10 +54,39 @@ if (themeToggle) {
         document.body.classList.toggle('light');
     });
 
-    // Set initial theme
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     } else {
         document.body.classList.add('light');
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const emailForm = document.getElementById('emailForm');
+    const responseMessage = document.getElementById('responseMessage');
+
+    if (emailForm) {
+        emailForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                if (response.ok) {
+                    responseMessage.textContent = 'u got the email 😊 👍';
+                } else {
+                    responseMessage.textContent = 'Failed to send email.';
+                }
+            } catch (error) {
+                responseMessage.textContent = 'An error occurred.';
+            }
+        });
+    }
+});
