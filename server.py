@@ -27,9 +27,12 @@ def send_email(to_email, subject, message):
         server.send_message(msg)
         server.quit()
 
-    except Exception as e:
-        print(f"Failed to send email: {e}")
-        return str(e)
+    except smtplib.SMTPAuthenticationError:
+        return "SMTP Authentication Error: Check your email and password."
+    except smtplib.SMTPConnectError:
+        return "SMTP Connection Error: Check your server settings."
+    except smtplib.SMTPException as e:
+        return f"SMTP Error: {e}"
 
     return "Email sent successfully!"
 
@@ -43,4 +46,11 @@ def handle_email_request():
     if not to_email or not subject or not message:
         return jsonify({'error': 'Missing required fields'}), 400
 
-    result = send_email(to_email, su
+    result = send_email(to_email, subject, message)
+    if "Error" in result:
+        return jsonify({'error': result}), 500
+
+    return jsonify({'message': result})
+
+if __name__ == "__main__":
+    app.run(debug=True)
