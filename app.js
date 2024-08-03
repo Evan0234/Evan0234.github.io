@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
+// 🤓 🤓 🤓 🤓 🤓 🤓 
 const firebaseConfig = {
   apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
   authDomain: "zeeps-75fba.firebaseapp.com",
@@ -11,9 +12,11 @@ const firebaseConfig = {
   measurementId: "G-NE32QM5B99"
 };
 
+// NERDDDD
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// NERDDDDDD
 onAuthStateChanged(auth, (user) => {
     const bannedIPs = ["123.456.789.0", "987.654.321.0"];
     fetch("https://api.ipify.org?format=json")
@@ -31,61 +34,60 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            alert("Login Successful!");
-            window.location.href = '/dashboard';
-        })
-        .catch((error) => {
-            const errorMessage = error.message;
-            document.getElementById('loginError').innerText = errorMessage;
-        });
-});
-
-const themeToggle = document.getElementById('themeToggle');
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        document.body.classList.toggle('light');
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                alert("Login Successful!");
+                window.location.href = '/dashboard';
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                document.getElementById('loginError').innerText = errorMessage;
+            });
     });
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    } else {
-        document.body.classList.add('light');
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            document.body.classList.toggle('light');
+        });
+
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.add('light');
+        }
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
     const emailForm = document.getElementById('emailForm');
-    const responseMessage = document.getElementById('responseMessage');
-
     if (emailForm) {
         emailForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const userEmail = document.getElementById('userEmail').value;
 
             try {
-                const response = await fetch('/send-email', {
+                const response = await fetch('/send_email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email })
+                    body: JSON.stringify({ email: userEmail })
                 });
 
                 if (response.ok) {
-                    responseMessage.textContent = 'u got the email 😊 👍';
+                    alert('u got the email 😊 👍');
                 } else {
-                    responseMessage.textContent = 'Failed to send email.';
+                    alert('Failed to send email');
                 }
             } catch (error) {
-                responseMessage.textContent = 'An error occurred.';
+                console.error('Error sending email:', error);
+                alert('An error occurred while sending the email');
             }
         });
     }
