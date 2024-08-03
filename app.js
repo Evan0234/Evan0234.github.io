@@ -64,25 +64,18 @@ if (themeToggle) {
 document.getElementById('emailForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
-
-    fetch('/send-email', {
+    fetch('/send_email', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: email })
+        body: JSON.stringify({
+            toEmail: email,
+            subject: '👍',
+            message: 'u got the email 😊 👍'
+        })
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Email sent successfully!');
-        } else {
-            alert('Failed to send email.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error sending email.');
-    });
+    .then(data => alert('Email sent successfully!'))
+    .catch(error => alert('Failed to send email.'));
 });
-// nerd
