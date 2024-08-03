@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        email_key: ['EMAIL_1', 'EMAIL_2'] # Add more email keys as needed
+        email_key: ['EMAIL_1', 'EMAIL_2'] 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
