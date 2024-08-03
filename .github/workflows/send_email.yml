@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        email_key: ['EMAIL_1', 'EMAIL_2'] 
+        email_key: ['EMAIL_1', 'EMAIL_2']
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -28,5 +28,7 @@ jobs:
       env:
         ZOHO_EMAIL: ${{ secrets.ZOHO_EMAIL }}
         ZOHO_PASSWORD: ${{ secrets.ZOHO_PASSWORD }}
+        EMAIL_1: ${{ secrets.EMAIL_1 }}
+        EMAIL_2: ${{ secrets.EMAIL_2 }}
       run: |
         python send_email.py ${{ matrix.email_key }}
