@@ -7,6 +7,9 @@ def send_email(to_email, subject, message):
     from_email = os.getenv('ZOHO_EMAIL')
     password = os.getenv('ZOHO_PASSWORD')
     
+    print(f"From Email: {from_email}")
+    print(f"Password: {'*' * len(password) if password else None}")
+    
     if not from_email or not password:
         raise ValueError("Email or password not set in environment variables")
     
@@ -39,7 +42,7 @@ def send_email(to_email, subject, message):
 
 
 if __name__ == "__main__":
-    to_email = 'evan.mitchell1009595@gmail.com'
+    to_email = 'recipient_email@example.com'
     subject = 'Test Email from Zoho'
     message = 'This is a test email from my bot using Zoho.'
 
