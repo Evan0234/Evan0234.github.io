@@ -1,16 +1,17 @@
 name: Send Email
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Email to send'
+        required: true
+        type: string
 
 jobs:
   send_email:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        email_key: ['EMAIL_1', 'EMAIL_2']
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -18,17 +19,15 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.12'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-    - name: Send Email
+    - name: Run send_email.py
       env:
         ZOHO_EMAIL: ${{ secrets.ZOHO_EMAIL }}
         ZOHO_PASSWORD: ${{ secrets.ZOHO_PASSWORD }}
-        EMAIL_1: ${{ secrets.EMAIL_1 }}
-        EMAIL_2: ${{ secrets.EMAIL_2 }}
-      run: |
-        python send_email.py ${{ matrix.email_key }}
+      run: python send_email.py ${{ github.event.inputs.email }}
