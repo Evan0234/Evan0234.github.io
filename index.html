@@ -8,22 +8,24 @@
 </head>
 <body>
     <h1>Send Email</h1>
-    <form action="https://github.com/Evan0234/Evan0234.github.io/actions/workflows/send_email.yml" method="POST">
+    <form id="email-form" action="#" method="POST">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        <div class="g-recaptcha" data-sitekey="6Lfb7R4qAAAAAP0lguxoDgKffDbRO-0UWzERYSrV"></div>
+        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
         <input type="hidden" name="recaptcha_response" id="recaptcha_response">
         <button type="submit">Send Email</button>
     </form>
     <script>
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.getElementById('email-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            grecaptcha.execute();
+            grecaptcha.ready(function() {
+                grecaptcha.execute();
+            });
         });
 
         function onSubmit(e) {
             document.getElementById('recaptcha_response').value = e.response;
-            e.target.submit();
+            document.getElementById('email-form').submit();
         }
     </script>
 </body>
