@@ -1,5 +1,6 @@
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+<head>
+  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"></script>
+ event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -12,3 +13,4 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             alert('Invalid credentials!');
         });
 });
+</head>document.getElementById('loginForm').addEventListener('submit', function(event) {
