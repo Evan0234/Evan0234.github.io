@@ -2,22 +2,25 @@ import requests
 import sys
 import os
 
-def send_email(recipient_email):
-    
+def send_email(recipient):
+
     api_key = os.getenv('TESTMAIL_API_KEY')
-    
 
-    sender_email = "esamu@inbox.testmail.app"
-    subject = "😊"
-    body = "u got the email 👍 😊"
+    if not api_key:
+        raise ValueError("API key is missing")
+
+
+    sender = 'noreply@zeeps.me'
+    subject = '😊 '
+    body = 'you got the email 😊 👍 '
 
     
-    api_endpoint = "https://api.testmail.app/send"
+    url = 'https://api.testmail.app/send'
 
     
     payload = {
-        'from': sender_email,
-        'to': recipient_email,
+        'from': sender,
+        'to': recipient,
         'subject': subject,
         'text': body
     }
@@ -27,13 +30,14 @@ def send_email(recipient_email):
         'Content-Type': 'application/json'
     }
 
-    try:
-        
-        response = requests.post(api_endpoint, json=payload, headers=headers)
-        response.raise_for_status()  
+    
+    response = requests.post(url, json=payload, headers=headers)
+
+    if response.status_code == 200:
         print("Email sent successfully.")
-    except Exception as e:
-        print(f"Failed to send email. Error: {e}")
+    else:
+        print(f"Failed to send email. Status code: {response.status_code}")
+        print(response.text)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
