@@ -1,7 +1,6 @@
 import os
 import requests
 import sys
-import json
 
 
 RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY')
