@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="styles.css">
-    <script type="module" src="app.js"></script>
+    <title>Send Email</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <div class="container">
-        <button id="themeToggle">Toggle Light/Dark Mode</button>
-        <div class="rainbow-text">nothing to see here</div>
-        <form id="emailForm">
-            <input type="email" id="email" placeholder="send a test email, or dont, smh" required>
-            <button type="submit">Send Email</button>
-        </form>
-    </div>
+    <form id="emailForm" action="/send-email" method="post">
+        <input type="email" name="email" required placeholder="Enter your email">
+        <div class="g-recaptcha" data-sitekey="6Lfb7R4qAAAAAP0lguxoDgKffDbRO-0UWzERYSrV"></div>
+        <button type="submit">Send Email</button>
+    </form>
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            grecaptcha.execute();
+        });
+    </script>
 </body>
 </html>
