@@ -1,3 +1,4 @@
+const functions = require("firebase-functions"); 
 const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const fetch = require('node-fetch');
@@ -36,10 +37,4 @@ exports.analyzeMessage = onRequest(async (req, res) => {
         logger.error("Error processing request:", error);
         res.status(500).json({ error: 'Error processing request' });
     }
-});
-
-
-exports.helloWorld = onRequest((request, response) => {
-    logger.info("Hello logs!", { structuredData: true });
-    response.send("Hello from Firebase!");
 });
