@@ -7,9 +7,9 @@ def send_email(recipient_email):
     api_key = os.getenv('TESTMAIL_API_KEY')
     
 
-    sender_email = "noreply@example.com"
-    subject = "Test Email"
-    body = "This is a test email sent using Testmail.app API."
+    sender_email = "esamu@inbox.testmail.app"
+    subject = "😊"
+    body = "u got the email 👍 😊"
 
     
     api_endpoint = "https://api.testmail.app/send"
