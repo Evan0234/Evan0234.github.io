@@ -28,6 +28,5 @@ jobs:
 
     - name: Run send_email.py
       env:
-        ZOHO_EMAIL: ${{ secrets.ZOHO_EMAIL }}
-        ZOHO_PASSWORD: ${{ secrets.ZOHO_PASSWORD }}
+        TESTMAIL_API_KEY: ${{ secrets.TESTMAIL_API_KEY }}
       run: python send_email.py ${{ github.event.inputs.email }}
