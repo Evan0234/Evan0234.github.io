@@ -7,16 +7,24 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <form id="emailForm" action="/send-email" method="post">
-        <input type="email" name="email" required placeholder="Enter your email">
+    <h1>Send Email</h1>
+    <form action="https://github.com/Evan0234/Evan0234.github.io/actions/workflows/send_email.yml" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
         <div class="g-recaptcha" data-sitekey="6Lfb7R4qAAAAAP0lguxoDgKffDbRO-0UWzERYSrV"></div>
+        <input type="hidden" name="recaptcha_response" id="recaptcha_response">
         <button type="submit">Send Email</button>
     </form>
     <script>
-        document.getElementById('emailForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
             grecaptcha.execute();
         });
+
+        function onSubmit(e) {
+            document.getElementById('recaptcha_response').value = e.response;
+            e.target.submit();
+        }
     </script>
 </body>
 </html>
