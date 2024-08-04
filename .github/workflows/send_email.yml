@@ -30,4 +30,5 @@ jobs:
       env:
         RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
         TESTMAIL_API_KEY: ${{ secrets.TESTMAIL_API_KEY }}
+        RECAPTCHA_RESPONSE: ${{ github.event.inputs.recaptcha_response }}
       run: python send_email.py ${{ github.event.inputs.email }}
