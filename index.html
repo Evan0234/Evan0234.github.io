@@ -1,11 +1,14 @@
-<head>
-  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"></script>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"></script>
+    <!-- Add Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js"></script>
 </head>
 <body class="container light">
     <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
@@ -19,7 +22,23 @@
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
+    
     <script src="script.js"></script>
+    <script>
+
+      const firebaseConfig = {
+            apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
+            authDomain: "zeeps-75fba.firebaseapp.com",
+            projectId: "zeeps-75fba",
+            storageBucket: "zeeps-75fba.appspot.com",
+            messagingSenderId: "593625338479",
+            appId: "1:593625338479:web:3fb257f3d8e10e0aa4f39a",
+            measurementId: "G-NE32QM5B99"
+        };
+
+
+      const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+    </script>
 </body>
 </html>
-</head><!DOCTYPE html>
