@@ -1,3 +1,6 @@
+// Initialize Firestore
+const db = firebase.firestore(); 
+
 function toggleTheme() {
     const body = document.body;
     body.classList.toggle('light');
@@ -5,17 +8,23 @@ function toggleTheme() {
 }
 
 async function sendMessage(event) {
-    if (event && event.key !== 'Enter') return;
-
+    if (event && event.key !== 'Enter') return; 
     const inputField = document.getElementById('chat-input');
     const message = inputField.value.trim();
     if (!message) return;
 
-    appendMessage('user', message);
-    inputField.value = '';
+    appendMessage('user', message); 
+    inputField.value = ''; 
 
-    const response = await getAIResponse(message);
-    appendMessage('bot', response);
+    const response = await getAIResponse(message); 
+    appendMessage('bot', response); 
+
+
+    await db.collection('messages').add({
+        userMessage: message,
+        aiResponse: response,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
 }
 
 function appendMessage(sender, message) {
@@ -24,27 +33,28 @@ function appendMessage(sender, message) {
     messageElement.classList.add('chat-message', sender);
     messageElement.textContent = message;
     chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight; 
 }
 
 async function getAIResponse(message) {
-    const apiKey = 'process.env.GOOGLE_AI_API_KEY'; 
-    const endpoint = `https://language.googleapis.com/v1/documents:analyzeSentiment?key=${apiKey}`;
-    
-    const response = await fetch(endpoint, {
+    const response = await fetch('https://zeeps-75fba.cloudfunctions.net/analyzeMessage', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            document: {
-                type: 'PLAIN_TEXT',
-                content: message
-            },
-            encodingType: 'UTF8'
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
     });
 
     const data = await response.json();
-    return data.documentSentiment.score >= 0 ? 'Good' : 'Bad';
+    return data.documentSentiment.score >= 0 ? 'Good' : 'Bad'; 
 }
+
+
+async function loadMessages() {
+    const messagesSnapshot = await db.collection('messages').orderBy('timestamp').get();
+    messagesSnapshot.forEach(doc => {
+        const messageData = doc.data();
+        appendMessage('bot', messageData.aiResponse); 
+    });
+}
+
+
+window.onload = loadMessages;
