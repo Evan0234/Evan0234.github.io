@@ -1,72 +1,81 @@
 body {
     font-family: Arial, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
-.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-
-.light-mode {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.theme-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-}
-
-.rainbow-text {
-    font-size: 2rem;
-    background: linear-gradient(90deg, #ff0000, #ffa500, #ffff00, #008000, #0000ff, #4b0082, #ee82ee);
-    -webkit-background-clip: text;
-    color: transparent;
-    animation: rainbow 5s infinite;
-}
-
-@keyframes rainbow {
-    0%, 100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-}
-
-.chat-container {
+.container {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.messages {
-    max-height: 300px;
+h1 {
+    text-align: center;
+}
+
+#chat {
+    max-height: 400px;
     overflow-y: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-#user-input {
-    width: 75%;
+.message {
+    margin: 5px 0;
     padding: 10px;
-    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.user {
+    background-color: #e1f5fe;
+    text-align: right;
+}
+
+.ai {
+    background-color: #ffe0b2;
+}
+
+input[type="text"] {
+    width: calc(100% - 60px);
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-#send-btn {
-    padding: 10px 20px;
+button {
+    padding: 10px;
     border: none;
-    background-color: #008cba;
-    color: #fff;
-    cursor: pointer;
+    background-color: #007bff;
+    color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-#send-btn:hover {
-    background-color: #005f5f;
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Dark mode styles */
+body.dark {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark .container {
+    background: #444;
+}
+
+body.dark .message.user {
+    background-color: #555;
+}
+
+body.dark .message.ai {
+    background-color: #666;
 }
