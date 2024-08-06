@@ -31,6 +31,31 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
+// Theme management
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    // Apply saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.body.classList.add(savedTheme);
+    } else {
+        // Default to system preference if no saved theme
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.add('light');
+        }
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const isDarkMode = document.body.classList.contains('dark');
+        const newTheme = isDarkMode ? 'light' : 'dark';
+        document.body.classList.remove('light', 'dark');
+        document.body.classList.add(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+}
+
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('loginEmail').value;
@@ -46,17 +71,3 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             document.getElementById('loginError').innerText = errorMessage;
         });
 });
-
-const themeToggle = document.getElementById('themeToggle');
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        document.body.classList.toggle('light');
-    });
-
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    } else {
-        document.body.classList.add('light');
-    }
-}
