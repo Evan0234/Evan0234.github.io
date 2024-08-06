@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat</title>
     <style>
-
+        /* Base styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -85,32 +85,7 @@
             background-color: #e9ecef;
         }
     </style>
-    <script type="importmap">
-        {
-            "imports": {
-                "@google/generative-ai": "https://esm.run/@google/generative-ai"
-            }
-        }
-    </script>
     <script type="module">
-        import { GoogleGenerativeAI } from "@google/generative-ai";
-
-        const API_KEY = "__GEMINI_API_KEY__";
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-        async function run(prompt) {
-            try {
-                const result = await model.generateContent(prompt);
-                const response = await result.response;
-                const text = await response.text();
-                return text;
-            } catch (error) {
-                console.error("Error generating content:", error);
-                return "Sorry, something went wrong.";
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const chatForm = document.getElementById('chatForm');
             const chatContainer = document.getElementById('chatContainer');
@@ -126,13 +101,23 @@
                 chatContainer.appendChild(userMessage);
 
 
-                const aiResponse = await run(userInput);
+                try {
+                    const response = await fetch(`/api/generate?prompt=${encodeURIComponent(userInput)}`);
+                    const data = await response.json();
+                    const aiResponse = data.response; 
 
 
-                const aiMessage = document.createElement('div');
-                aiMessage.classList.add('message', 'ai-message');
-                aiMessage.textContent = aiResponse;
-                chatContainer.appendChild(aiMessage);
+                    const aiMessage = document.createElement('div');
+                    aiMessage.classList.add('message', 'ai-message');
+                    aiMessage.textContent = aiResponse;
+                    chatContainer.appendChild(aiMessage);
+                } catch (error) {
+                    console.error("Error fetching AI response:", error);
+                    const aiMessage = document.createElement('div');
+                    aiMessage.classList.add('message', 'ai-message');
+                    aiMessage.textContent = "Sorry, something went wrong.";
+                    chatContainer.appendChild(aiMessage);
+                }
 
 
                 document.getElementById('userInput').value = '';
