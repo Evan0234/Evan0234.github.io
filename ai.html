@@ -3,94 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeeps AI Chat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .chat-container {
-            width: 80%;
-            margin: auto;
-        }
-        .messages {
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 300px;
-            overflow-y: scroll;
-        }
-        .input-container {
-            display: flex;
-            margin-top: 10px;
-        }
-        .input-container input {
-            flex: 1;
-            padding: 10px;
-            font-size: 16px;
-        }
-        .input-container button {
-            padding: 10px;
-            font-size: 16px;
-        }
-    </style>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
-            authDomain: "zeeps-75fba.firebaseapp.com",
-            projectId: "zeeps-75fba",
-            storageBucket: "zeeps-75fba.appspot.com",
-            messagingSenderId: "593625338479",
-            appId: "1:593625338479:web:3fb257f3d8e10e0aa4f39a",
-            measurementId: "G-NE32QM5B99"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            if (message) {
-                // Save message to Firestore
-                await db.collection('messages').add({
-                    text: message,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                // Clear input
-                input.value = '';
-            }
-        }
-
-        function listenForMessages() {
-            const messagesDiv = document.getElementById('messages');
-            db.collection('messages').orderBy('timestamp').onSnapshot(snapshot => {
-                messagesDiv.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const message = doc.data().text;
-                    const messageElement = document.createElement('div');
-                    messageElement.textContent = message;
-                    messagesDiv.appendChild(messageElement);
-                });
-            });
-        }
-
-        window.onload = function() {
-            listenForMessages();
-        }
-    </script>
+    <title>AI Chat</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="chat-container">
-        <h1>AI Chat</h1>
-        <div id="messages" class="messages"></div>
-        <div class="input-container">
-            <input type="text" id="messageInput" placeholder="Type your message here">
-            <button onclick="sendMessage()">Send</button>
-        </div>
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn">Toggle Theme</button>
     </div>
+    <div class="chat-container">
+        <div class="messages" id="messages"></div>
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button id="send-btn">Send</button>
+    </div>
+    <script src="firebase.js"></script>
+    <script src="theme.js"></script>
+    <script src="ai.js"></script>
 </body>
 </html>
