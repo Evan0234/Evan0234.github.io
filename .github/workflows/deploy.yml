@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Deploy
 
 on:
@@ -11,24 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '18'
 
     - name: Install dependencies
       run: npm install
 
-    - name: Build project
+    - name: Replace API Key Placeholder
+      run: |
+        sed -i 's/__GEMINI_API_KEY__/${{ secrets.GEMINI_API_KEY }}/g' public/index.html
+
+    - name: Build
       run: npm run build
 
-    - name: Deploy to server
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      run: |
-        echo "Deploying..."
-        # Your deployment commands here, e.g., scp, rsync, etc.
-        # Make sure the deployment environment has access to the GEMINI_API_KEY
+    - name: Deploy
+      run: npm run deploy # Adjust as needed for your deployment process
