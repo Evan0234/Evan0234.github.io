@@ -1,5 +1,3 @@
-<head>
-  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +6,12 @@
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="app.js"></script>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("loginForm").submit();
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -16,10 +20,14 @@
         <form id="loginForm">
             <input type="email" id="loginEmail" placeholder="Email" required>
             <input type="password" id="loginPassword" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <button class="g-recaptcha"
+                data-sitekey="6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"
+                data-callback='onSubmit'
+                data-action='submit'>
+              Login
+            </button>
         </form>
         <div id="loginError"></div>
     </div>
 </body>
 </html>
-</head>
