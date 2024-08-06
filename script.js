@@ -1,4 +1,4 @@
-const apiEndpoint = 'https://us-central1-zeeps-75fba.cloudfunctions.net/analyzeMessage'; 
+const apiEndpoint = 'https://us-central1-zeeps-75fba.cloudfunctions.net/analyzeMessage';
 
 function toggleTheme() {
     const body = document.body;
@@ -35,9 +35,9 @@ async function getAIResponse(message) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ message }) 
+        body: JSON.stringify({ message })
     });
 
     const data = await response.json();
-    return data.aiResponse || 'Sorry, I didn\'t understand that.'; 
+    return data.aiResponse || 'Sorry, I didn\'t understand that.';
 }
