@@ -3,81 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD"></script>
-    <!-- Add Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js"></script>
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/generative-ai": "https://esm.run/@google/generative-ai"
-        }
-      }
-    </script>
+    <title>Zeeps</title>
 </head>
-<body class="container light">
-    <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>AI Chat</h1>
-        </div>
-        <div class="chat-box" id="chat-box"></div>
-        <div class="chat-input">
-            <input type="text" id="chat-input" placeholder="Type a message..." onkeypress="sendMessage(event)">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
-    <script type="module">
-      import { GoogleGenerativeAI } from "@google/generative-ai";
-
-      const GEMINI_AI_API_KEY = 'your-github-secret-api-key'; // Replace with the actual mechanism to fetch from GitHub secrets
-
-      if (!GEMINI_AI_API_KEY) {
-          document.getElementById('chat-box').innerText = 'API key not found. Please check your configuration.';
-          throw new Error('API key not found');
-      }
-
-      const genAI = new GoogleGenerativeAI(GEMINI_AI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-      async function sendMessage(event) {
-        if (event.type === 'keypress' && event.key !== 'Enter') return;
-
-        const input = document.getElementById('chat-input');
-        const message = input.value.trim();
-
-        if (message === '') return;
-
-        addMessageToChat('user', message);
-        input.value = '';
-
-        try {
-          const result = await model.generateContent(message);
-          const response = await result.response;
-          const text = await response.text();
-          addMessageToChat('ai', text);
-        } catch (error) {
-          console.error('Error communicating with Gemini AI:', error);
-          addMessageToChat('ai', 'There was an error processing your request: ' + error.message);
-        }
-      }
-
-      function addMessageToChat(sender, message) {
-        const chatBox = document.getElementById('chat-box');
-        const messageElement = document.createElement('div');
-        messageElement.className = `chat-message ${sender}`;
-        messageElement.innerText = message;
-        chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-
-      function toggleTheme() {
-        document.body.classList.toggle('dark');
-      }
-    </script>
+<body>
+    <h1>Welcome to Zeeps</h1>
+    <p>Chat with our AI at <a href="https://zeeps.me/ai">https://zeeps.me/ai</a></p>
 </body>
 </html>
