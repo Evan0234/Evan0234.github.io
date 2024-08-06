@@ -9,6 +9,13 @@
     <!-- Add Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
 </head>
 <body class="container light">
     <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
@@ -24,21 +31,53 @@
     </div>
     
     <script src="script.js"></script>
-    <script>
+    <script type="module">
+      import { GoogleGenerativeAI } from "@google/generative-ai";
 
-      const firebaseConfig = {
-            apiKey: "AIzaSyDKvMklNFuPJ96u1kZjb2sNsfGBu6_RoK4",
-            authDomain: "zeeps-75fba.firebaseapp.com",
-            projectId: "zeeps-75fba",
-            storageBucket: "zeeps-75fba.appspot.com",
-            messagingSenderId: "593625338479",
-            appId: "1:593625338479:web:3fb257f3d8e10e0aa4f39a",
-            measurementId: "G-NE32QM5B99"
-        };
+      const GEMINI_AI_API_KEY = 'your-github-secret-api-key'; // Replace with the actual mechanism to fetch from GitHub secrets
 
+      if (!GEMINI_AI_API_KEY) {
+          document.getElementById('chat-box').innerText = 'API key not found. Please check your configuration.';
+          throw new Error('API key not found');
+      }
 
-      const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
+      const genAI = new GoogleGenerativeAI(GEMINI_AI_API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      async function sendMessage(event) {
+        if (event.type === 'keypress' && event.key !== 'Enter') return;
+
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+
+        if (message === '') return;
+
+        addMessageToChat('user', message);
+        input.value = '';
+
+        try {
+          const result = await model.generateContent(message);
+          const response = await result.response;
+          const text = await response.text();
+          addMessageToChat('ai', text);
+        } catch (error) {
+          console.error('Error communicating with Gemini AI:', error);
+          addMessageToChat('ai', 'There was an error processing your request: ' + error.message);
+        }
+      }
+
+      function addMessageToChat(sender, message) {
+        const chatBox = document.getElementById('chat-box');
+        const messageElement = document.createElement('div');
+        messageElement.className = `chat-message ${sender}`;
+        messageElement.innerText = message;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle('dark');
+      }
     </script>
 </body>
 </html>
