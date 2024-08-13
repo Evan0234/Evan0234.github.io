@@ -1,8 +1,0 @@
-<script>
-  function onClick(e) {
-    e.preventDefault();
-    grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute('6LfC9R4qAAAAABWgT9TA2-xGc2gbwPTPQEp-NYfD', {action: 'LOGIN'});
-    });
-  }
-</script>
