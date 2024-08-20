@@ -1,6 +1,6 @@
-const express = require('express');
-const axios = require('axios');
-const bodyParser = require('body-parser');
+import express from 'express';
+import axios from 'axios';
+import bodyParser from 'body-parser';
 
 const app = express();
 app.use(bodyParser.json());
@@ -8,9 +8,8 @@ app.use(bodyParser.json());
 app.post('/send-sms', (req, res) => {
     const phoneNumber = req.body.phoneNumber;
     const message = "This is a test message, please don't reply";
-    
 
-  const apiKey = process.env.ABSTRACT_API_KEY;
+    const apiKey = process.env.ABSTRACT_API_KEY;
 
     axios.get(`https://phonevalidation.abstractapi.com/v1/?api_key=${apiKey}&phone=${phoneNumber}`)
         .then(response => {
