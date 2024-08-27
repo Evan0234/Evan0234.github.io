@@ -1,28 +1,23 @@
-const express = require('express');
-const axios = require('axios');
-const bodyParser = require('body-parser');
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-const app = express();
-app.use(bodyParser.json());
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQmJdktws4jVY0hRVTMYpmzDzme08lAZw",
+    authDomain: "zeepsme.firebaseapp.com",
+    projectId: "zeepsme",
+    storageBucket: "zeepsme.appspot.com",
+    messagingSenderId: "710976896969",
+    appId: "1:710976896969:web:d7e6f92b2c06974deaf218",
+    measurementId: "G-5QSENX1ZMD"
+  };
 
-app.post('/send-sms', (req, res) => {
-    const phoneNumber = req.body.phoneNumber;
-    const message = "This is a test message, please don't reply";
-
-    const apiKey = process.env.ABSTRACT_API_KEY;
-
-    axios.get(`https://phonevalidation.abstractapi.com/v1/?api_key=${apiKey}&phone=${phoneNumber}`)
-        .then(response => {
-            console.log(response.data);
-            res.json({ message: 'Message sent successfully!' });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'Failed to send message' });
-        });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
