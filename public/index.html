@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-        <title>Image Map 😁🔥🔥</title>
-        <link rel="stylesheet" href="index.css">
+        <meta charset="utf-8">
+        <title>Login + Firebase Database</title>
+         <!-- Cool Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+        <!-- Our stylesheet -->
+        <link rel="stylesheet" type="text/css" href="index.css">
     </head>
-
     <body>
-        <div id="container">
+        <div id="content_container">
+            <div id="form_container">
+                <div id="form_header_container">
+                    <h2 id="form_header"> Login + Firebase Database </h2>
+                </div>
 
-            <div id="image_container">
-                
-                <img id="image" src="cool_image.jpg" usemap="#image_map">
-                <map name="image_map">
-                    <area alt="Oil" title="Oil" target="_blank" href="https://www.bonappetit.com/test-kitchen/ingredients/article/types-of-cooking-oil" coords="171,85,42" shape="circle">
-                    <area alt="Avocado" title="Avocado" target="_blank" href="https://www.medicalnewstoday.com/articles/270406#_noHeaderPrefixedContent" coords="172,264 232,268 305,335 321,368 287,375 183,344 150,298 " shape="polygon">
-                    <area alt="Cucumber" title="Cucumber" target="_blank" href="second.html" coords="304,49 235,96 257,123 294,113 399,121 406,86 " shape="polygon">
-                </map>
+                <div id="form_content_container">
+                    <div id="form_content_inner_container">
+                        <input type="text" id="full_name" placeholder="Full name">
+                        <input type="email" id="email" placeholder="Email">
+                        <input type="password" id="password" placeholder="New Password">
 
+                        <input type="text" id="favourite_song" placeholder="The Best Song Ever">
+                        <input type="text" id="milk_before_cereal" placeholder="Milk Before Cereal? ( Yes | No )">
+
+                        <div id="button_container">
+                            <button onclick="login()">Login</button>
+                            <button onclick="register()">Register</button>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-    
         </div>
     </body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+    <!-- Our script must be loaded after firebase references -->
+    <script src="index.js"></script>
 
 </html>
-
-<!-- Resources -->
-<!-- Image Mapper: https://imagemap.org/ -->
-<!-- Image Resizer: https://imageresizer.com/ -->
-
-<!-- Second.html
-
-    <!DOCTYPE html>
-    <html>
-
-        <body>
-            <h2>Cool Cucumbers 🥒🥒</h2>
-        </body>
-
-    </html>
-    
- -->
