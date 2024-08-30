@@ -43,15 +43,13 @@ function register() {
     var full_name = document.getElementById('full_name').value;
 
     if (!validate_email(email) || !validate_password(password)) {
-        alert('Email or Password is Outta Line!!');
-        return;
+        return Promise.reject(new Error('Email or Password is Outta Line!!'));
     }
     if (!validate_field(full_name)) {
-        alert('Full Name is Outta Line!!');
-        return;
+        return Promise.reject(new Error('Full Name is Outta Line!!'));
     }
 
-    auth.createUserWithEmailAndPassword(email, password)
+    return auth.createUserWithEmailAndPassword(email, password)
         .then(function() {
             console.log("User registered successfully");
             var user = auth.currentUser;
@@ -67,10 +65,6 @@ function register() {
             setCookie("loggedIn", "true", 7);
 
             window.location.href = 'https://zeeps.me/dashboard';
-        })
-        .catch(function(error) {
-            console.error("Registration failed: ", error.message);
-            alert(error.message);
         });
 }
 
@@ -80,11 +74,10 @@ function login() {
     var password = document.getElementById('password').value;
 
     if (!validate_email(email) || !validate_password(password)) {
-        alert('Email or Password is Outta Line!!');
-        return;
+        return Promise.reject(new Error('Email or Password is Outta Line!!'));
     }
 
-    auth.signInWithEmailAndPassword(email, password)
+    return auth.signInWithEmailAndPassword(email, password)
         .then(function() {
             console.log("User logged in successfully");
             var user = auth.currentUser;
@@ -98,10 +91,6 @@ function login() {
             setCookie("loggedIn", "true", 7);
 
             window.location.href = 'https://zeeps.me/dashboard';
-        })
-        .catch(function(error) {
-            console.error("Login failed: ", error.message);
-            alert(error.message);
         });
 }
 
