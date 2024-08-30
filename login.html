@@ -70,30 +70,25 @@
             </div>
         </div>
     </div>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    
+    <!-- Include Firebase and your script -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
-    <!-- Our script must be loaded after firebase references -->
     <script src="index.js"></script>
+
     <script>
         function handleLogin() {
-            // Call the login function from index.js
-            login().then(() => {
-                // Redirect to dashboard after successful login
-                window.location.href = 'https://zeeps.me/dashboard';
-            }).catch(error => {
+            login().catch(function(error) {
                 console.error("Login failed: ", error);
+                alert(error.message);
             });
         }
 
         function handleRegister() {
-            // Call the register function from index.js
-            register().then(() => {
-                // Redirect to dashboard after successful registration
-                window.location.href = 'https://zeeps.me/dashboard';
-            }).catch(error => {
+            register().catch(function(error) {
                 console.error("Registration failed: ", error);
+                alert(error.message);
             });
         }
     </script>
