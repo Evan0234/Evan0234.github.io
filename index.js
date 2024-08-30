@@ -51,8 +51,14 @@ function register () {
     // Push to Firebase Database
     database_ref.child('users/' + user.uid).set(user_data)
 
+    // Set a cookie to remember the logged-in state
+    document.cookie = "loggedIn=true; path=/";
+
     // Done
     alert('User Created!!')
+    
+    // Redirect to dashboard
+    window.location.href = 'https://zeeps.me/dashboard';
   })
   .catch(function(error) {
     // Firebase will use this to alert of its errors
@@ -92,9 +98,14 @@ function login () {
     // Push to Firebase Database
     database_ref.child('users/' + user.uid).update(user_data)
 
+    // Set a cookie to remember the logged-in state
+    document.cookie = "loggedIn=true; path=/";
+
     // Done
     alert('User Logged In!!')
-
+    
+    // Redirect to dashboard
+    window.location.href = 'https://zeeps.me/dashboard';
   })
   .catch(function(error) {
     // Firebase will use this to alert of its errors
@@ -119,7 +130,7 @@ function validate_email(email) {
 
 function validate_password(password) {
   // Firebase only accepts lengths greater than 6
-  if (password < 6) {
+  if (password.length < 6) {
     return false
   } else {
     return true
