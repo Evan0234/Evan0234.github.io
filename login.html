@@ -36,6 +36,13 @@
             font-weight: bold;
         }
     </style>
+    <script>
+        // Check if the loggedIn cookie exists
+        if (document.cookie.includes('loggedIn=true')) {
+            // If it exists, redirect to dashboard
+            window.location.href = 'https://zeeps.me/dashboard';
+        }
+    </script>
 </head>
 <body>
     <div id="content_container">
@@ -71,15 +78,13 @@
     <script src="index.js"></script>
     <script>
         function handleLogin() {
-            //  `donkey.js`
-            // On successful login, redirect to dashboard
-            window.location.href = 'https://zeeps.me/dashboard';
+            // Call the login function from index.js
+            login();
         }
 
         function handleRegister() {
-            //donkey.js`
-            // On successful registration, redirect to dashboard
-            window.location.href = 'https://zeeps.me/dashboard';
+            // Call the register function from index.js
+            register();
         }
     </script>
 </body>
