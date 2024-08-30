@@ -79,12 +79,22 @@
     <script>
         function handleLogin() {
             // Call the login function from index.js
-            login();
+            login().then(() => {
+                // Redirect to dashboard after successful login
+                window.location.href = 'https://zeeps.me/dashboard';
+            }).catch(error => {
+                console.error("Login failed: ", error);
+            });
         }
 
         function handleRegister() {
             // Call the register function from index.js
-            register();
+            register().then(() => {
+                // Redirect to dashboard after successful registration
+                window.location.href = 'https://zeeps.me/dashboard';
+            }).catch(error => {
+                console.error("Registration failed: ", error);
+            });
         }
     </script>
 </body>
