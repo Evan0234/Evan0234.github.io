@@ -10,6 +10,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
 // Initialize variables
 const auth = firebase.auth();
 const database = firebase.database();
@@ -17,16 +18,16 @@ const database = firebase.database();
 // Set up our register function
 function register() {
     // Get all our input fields
-    email = document.getElementById('email').value;
-    password = document.getElementById('password').value;
-    full_name = document.getElementById('full_name').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var full_name = document.getElementById('full_name').value;
 
     // Validate input fields
-    if (validate_email(email) == false || validate_password(password) == false) {
+    if (!validate_email(email) || !validate_password(password)) {
         alert('Email or Password is Outta Line!!');
-        return;  // Don't continue running the code
+        return;
     }
-    if (validate_field(full_name) == false) {
+    if (!validate_field(full_name)) {
         alert('Full Name is Outta Line!!');
         return;
     }
@@ -34,6 +35,8 @@ function register() {
     // Move on with Auth
     auth.createUserWithEmailAndPassword(email, password)
         .then(function() {
+            console.log("User registered successfully");
+
             // Declare user variable
             var user = auth.currentUser;
 
@@ -51,34 +54,33 @@ function register() {
             database_ref.child('users/' + user.uid).set(user_data);
 
             // Set a cookie to remember the logged-in state for 7 days
-            document.cookie = "loggedIn=true; path=/; max-age=" + 7*24*60*60;
+            document.cookie = "loggedIn=true; path=/; max-age=" + 7 * 24 * 60 * 60;
 
             // Redirect to dashboard
             window.location.href = 'https://zeeps.me/dashboard';
         })
         .catch(function(error) {
-            // Firebase will use this to alert of its errors
-            var error_code = error.code;
-            var error_message = error.message;
-
-            alert(error_message);
+            console.error("Registration failed: ", error.message);
+            alert(error.message);
         });
 }
 
 // Set up our login function
 function login() {
     // Get all our input fields
-    email = document.getElementById('email').value;
-    password = document.getElementById('password').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
 
     // Validate input fields
-    if (validate_email(email) == false || validate_password(password) == false) {
+    if (!validate_email(email) || !validate_password(password)) {
         alert('Email or Password is Outta Line!!');
-        return;  // Don't continue running the code
+        return;
     }
 
     auth.signInWithEmailAndPassword(email, password)
         .then(function() {
+            console.log("User logged in successfully");
+
             // Declare user variable
             var user = auth.currentUser;
 
@@ -94,49 +96,27 @@ function login() {
             database_ref.child('users/' + user.uid).update(user_data);
 
             // Set a cookie to remember the logged-in state for 7 days
-            document.cookie = "loggedIn=true; path=/; max-age=" + 7*24*60*60;
+            document.cookie = "loggedIn=true; path=/; max-age=" + 7 * 24 * 60 * 60;
 
             // Redirect to dashboard
             window.location.href = 'https://zeeps.me/dashboard';
         })
         .catch(function(error) {
-            // Firebase will use this to alert of its errors
-            var error_code = error.code;
-            var error_message = error.message;
-
-            alert(error_message);
+            console.error("Login failed: ", error.message);
+            alert(error.message);
         });
 }
 
 // Validate Functions
 function validate_email(email) {
-    expression = /^[^@]+@\w+(\.\w+)+\w$/;
-    if (expression.test(email) == true) {
-        // Email is good
-        return true;
-    } else {
-        // Email is not good
-        return false;
-    }
+    var expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    return expression.test(email);
 }
 
 function validate_password(password) {
-    // Firebase only accepts lengths greater than 6
-    if (password.length < 6) {
-        return false;
-    } else {
-        return true;
-    }
+    return password.length >= 6;
 }
 
 function validate_field(field) {
-    if (field == null) {
-        return false;
-    }
-
-    if (field.length <= 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return field != null && field.length > 0;
 }
