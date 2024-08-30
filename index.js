@@ -11,140 +11,132 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 // Initialize variables
-const auth = firebase.auth()
-const database = firebase.database()
+const auth = firebase.auth();
+const database = firebase.database();
 
 // Set up our register function
-function register () {
-  // Get all our input fields
-  email = document.getElementById('email').value
-  password = document.getElementById('password').value
-  full_name = document.getElementById('full_name').value
+function register() {
+    // Get all our input fields
+    email = document.getElementById('email').value;
+    password = document.getElementById('password').value;
+    full_name = document.getElementById('full_name').value;
 
-  // Validate input fields
-  if (validate_email(email) == false || validate_password(password) == false) {
-    alert('Email or Password is Outta Line!!')
-    return
-    // Don't continue running the code
-  }
-  if (validate_field(full_name) == false) {
-    alert('Full Name is Outta Line!!')
-    return
-  }
- 
-  // Move on with Auth
-  auth.createUserWithEmailAndPassword(email, password)
-  .then(function() {
-    // Declare user variable
-    var user = auth.currentUser
-
-    // Add this user to Firebase Database
-    var database_ref = database.ref()
-
-    // Create User data
-    var user_data = {
-      email : email,
-      full_name : full_name,
-      last_login : Date.now()
+    // Validate input fields
+    if (validate_email(email) == false || validate_password(password) == false) {
+        alert('Email or Password is Outta Line!!');
+        return;  // Don't continue running the code
+    }
+    if (validate_field(full_name) == false) {
+        alert('Full Name is Outta Line!!');
+        return;
     }
 
-    // Push to Firebase Database
-    database_ref.child('users/' + user.uid).set(user_data)
+    // Move on with Auth
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(function() {
+            // Declare user variable
+            var user = auth.currentUser;
 
-    // Set a cookie to remember the logged-in state
-    document.cookie = "loggedIn=true; path=/";
+            // Add this user to Firebase Database
+            var database_ref = database.ref();
 
-    // Done
-    alert('User Created!!')
-    
-    // Redirect to dashboard
-    window.location.href = 'https://zeeps.me/dashboard';
-  })
-  .catch(function(error) {
-    // Firebase will use this to alert of its errors
-    var error_code = error.code
-    var error_message = error.message
+            // Create User data
+            var user_data = {
+                email: email,
+                full_name: full_name,
+                last_login: Date.now()
+            };
 
-    alert(error_message)
-  })
+            // Push to Firebase Database
+            database_ref.child('users/' + user.uid).set(user_data);
+
+            // Set a cookie to remember the logged-in state for 7 days
+            document.cookie = "loggedIn=true; path=/; max-age=" + 7*24*60*60;
+
+            // Redirect to dashboard
+            window.location.href = 'https://zeeps.me/dashboard';
+        })
+        .catch(function(error) {
+            // Firebase will use this to alert of its errors
+            var error_code = error.code;
+            var error_message = error.message;
+
+            alert(error_message);
+        });
 }
 
 // Set up our login function
-function login () {
-  // Get all our input fields
-  email = document.getElementById('email').value
-  password = document.getElementById('password').value
+function login() {
+    // Get all our input fields
+    email = document.getElementById('email').value;
+    password = document.getElementById('password').value;
 
-  // Validate input fields
-  if (validate_email(email) == false || validate_password(password) == false) {
-    alert('Email or Password is Outta Line!!')
-    return
-    // Don't continue running the code
-  }
-
-  auth.signInWithEmailAndPassword(email, password)
-  .then(function() {
-    // Declare user variable
-    var user = auth.currentUser
-
-    // Add this user to Firebase Database
-    var database_ref = database.ref()
-
-    // Create User data
-    var user_data = {
-      last_login : Date.now()
+    // Validate input fields
+    if (validate_email(email) == false || validate_password(password) == false) {
+        alert('Email or Password is Outta Line!!');
+        return;  // Don't continue running the code
     }
 
-    // Push to Firebase Database
-    database_ref.child('users/' + user.uid).update(user_data)
+    auth.signInWithEmailAndPassword(email, password)
+        .then(function() {
+            // Declare user variable
+            var user = auth.currentUser;
 
-    // Set a cookie to remember the logged-in state
-    document.cookie = "loggedIn=true; path=/";
+            // Add this user to Firebase Database
+            var database_ref = database.ref();
 
-    // Done
-    alert('User Logged In!!')
-    
-    // Redirect to dashboard
-    window.location.href = 'https://zeeps.me/dashboard';
-  })
-  .catch(function(error) {
-    // Firebase will use this to alert of its errors
-    var error_code = error.code
-    var error_message = error.message
+            // Create User data
+            var user_data = {
+                last_login: Date.now()
+            };
 
-    alert(error_message)
-  })
+            // Push to Firebase Database
+            database_ref.child('users/' + user.uid).update(user_data);
+
+            // Set a cookie to remember the logged-in state for 7 days
+            document.cookie = "loggedIn=true; path=/; max-age=" + 7*24*60*60;
+
+            // Redirect to dashboard
+            window.location.href = 'https://zeeps.me/dashboard';
+        })
+        .catch(function(error) {
+            // Firebase will use this to alert of its errors
+            var error_code = error.code;
+            var error_message = error.message;
+
+            alert(error_message);
+        });
 }
 
 // Validate Functions
 function validate_email(email) {
-  expression = /^[^@]+@\w+(\.\w+)+\w$/
-  if (expression.test(email) == true) {
-    // Email is good
-    return true
-  } else {
-    // Email is not good
-    return false
-  }
+    expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    if (expression.test(email) == true) {
+        // Email is good
+        return true;
+    } else {
+        // Email is not good
+        return false;
+    }
 }
 
 function validate_password(password) {
-  // Firebase only accepts lengths greater than 6
-  if (password.length < 6) {
-    return false
-  } else {
-    return true
-  }
+    // Firebase only accepts lengths greater than 6
+    if (password.length < 6) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function validate_field(field) {
-  if (field == null) {
-    return false
-  }
+    if (field == null) {
+        return false;
+    }
 
-  if (field.length <= 0) {
-    return false
-  } else {
-    return true
-  }
+    if (field.length <= 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
