@@ -15,6 +15,17 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
 
+// Listen for auth state changes
+auth.onAuthStateChanged(function(user) {
+    if (user) {
+        // User is signed in, redirect to dashboard
+        console.log("User is signed in, redirecting to dashboard...");
+        window.location.href = 'https://zeeps.me/dashboard';
+    } else {
+        console.log("No user is signed in.");
+    }
+});
+
 // Set up our register function
 function register() {
     // Get all our input fields
