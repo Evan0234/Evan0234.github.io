@@ -10,100 +10,133 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
 // Initialize variables
 const auth = firebase.auth();
 const database = firebase.database();
 
-// Function to set cookies
-function setCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax; Secure";
-}
-
-// Listen for auth state changes
-auth.onAuthStateChanged(function(user) {
-    if (user) {
-        console.log("User is signed in, redirecting to dashboard...");
-        window.location.href = 'https://zeeps.me/dashboard';
-    } else {
-        console.log("No user is signed in.");
-    }
-});
-
 // Set up our register function
 function register() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-    var full_name = document.getElementById('full_name').value;
+    // Get all our input fields
+    email = document.getElementById('email').value;
+    password = document.getElementById('password').value;
+    full_name = document.getElementById('full_name').value;
 
-    if (!validate_email(email) || !validate_password(password)) {
-        return Promise.reject(new Error('Email or Password is Outta Line!!'));
+    // Validate input fields
+    if (validate_email(email) == false || validate_password(password) == false) {
+        alert('Email or Password is Outta Line!!');
+        return;  // Don't continue running the code
     }
-    if (!validate_field(full_name)) {
-        return Promise.reject(new Error('Full Name is Outta Line!!'));
+    if (validate_field(full_name) == false) {
+        alert('Full Name is Outta Line!!');
+        return;
     }
 
-    return auth.createUserWithEmailAndPassword(email, password)
+    // Move on with Auth
+    auth.createUserWithEmailAndPassword(email, password)
         .then(function() {
-            console.log("User registered successfully");
+            // Declare user variable
             var user = auth.currentUser;
+
+            // Add this user to Firebase Database
             var database_ref = database.ref();
+
+            // Create User data
             var user_data = {
                 email: email,
                 full_name: full_name,
                 last_login: Date.now()
             };
+
+            // Push to Firebase Database
             database_ref.child('users/' + user.uid).set(user_data);
 
-            // Set the cookie to remember the logged-in state for 7 days
-            setCookie("loggedIn", "true", 7);
+            // Set a cookie to remember the logged-in state for 7 days
+            document.cookie = "loggedIn=true; path=/; max-age=" + 7*24*60*60;
 
+            // Redirect to dashboard
             window.location.href = 'https://zeeps.me/dashboard';
+        })
+        .catch(function(error) {
+            // Firebase will use this to alert of its errors
+            var error_code = error.code;
+            var error_message = error.message;
+
+            alert(error_message);
         });
 }
 
 // Set up our login function
 function login() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+    // Get all our input fields
+    email = document.getElementById('email').value;
+    password = document.getElementById('password').value;
 
-    if (!validate_email(email) || !validate_password(password)) {
-        return Promise.reject(new Error('Email or Password is Outta Line!!'));
+    // Validate input fields
+    if (validate_email(email) == false || validate_password(password) == false) {
+        alert('Email or Password is Outta Line!!');
+        return;  // Don't continue running the code
     }
 
-    return auth.signInWithEmailAndPassword(email, password)
+    auth.signInWithEmailAndPassword(email, password)
         .then(function() {
-            console.log("User logged in successfully");
+            // Declare user variable
             var user = auth.currentUser;
+
+            // Add this user to Firebase Database
             var database_ref = database.ref();
+
+            // Create User data
             var user_data = {
                 last_login: Date.now()
             };
+
+            // Push to Firebase Database
             database_ref.child('users/' + user.uid).update(user_data);
 
-            // Set the cookie to remember the logged-in state for 7 days
-            setCookie("loggedIn", "true", 7);
+            // Set a cookie to remember the logged-in state for 7 days
+            document.cookie = "loggedIn=true; path=/; max-age=" + 7*24*60*60;
 
+            // Redirect to dashboard
             window.location.href = 'https://zeeps.me/dashboard';
+        })
+        .catch(function(error) {
+            // Firebase will use this to alert of its errors
+            var error_code = error.code;
+            var error_message = error.message;
+
+            alert(error_message);
         });
 }
 
 // Validate Functions
 function validate_email(email) {
-    var expression = /^[^@]+@\w+(\.\w+)+\w$/;
-    return expression.test(email);
+    expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    if (expression.test(email) == true) {
+        // Email is good
+        return true;
+    } else {
+        // Email is not good
+        return false;
+    }
 }
 
 function validate_password(password) {
-    return password.length >= 6;
+    // Firebase only accepts lengths greater than 6
+    if (password.length < 6) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function validate_field(field) {
-    return field != null && field.length > 0;
+    if (field == null) {
+        return false;
+    }
+
+    if (field.length <= 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
