@@ -13,10 +13,11 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="index.js"></script>
     <script>
-        // Check if user is logged in
-        auth.onAuthStateChanged((user) => {
+        // Check if the user is logged in via Firebase
+        firebase.auth().onAuthStateChanged(function(user) {
             if (!user) {
-                window.location.href = "https://zeeps.me/login";
+                // If no user is signed in, redirect to login
+                window.location.href = 'https://zeeps.me/login';
             }
         });
     </script>
