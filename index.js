@@ -94,7 +94,7 @@ function login() {
         database_ref.child('users/' + user.uid).update(user_data);
 
         // Set a cookie to keep the user logged in for a week
-        document.cookie = "loggedIn=true; max-age=" + (7 * 24 * 60 * 60) + "; path=/";
+        document.cookie = "loggedIn=true; max-age=" + (7 * 24 * 60 * 60) + "; path=/; domain=zeeps.me";
 
         // Show success message with close button
         alert('User Logged In!!');
@@ -110,9 +110,10 @@ function login() {
     });
 }
 
-// Redirect if logged in or not
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
+// Check the loggedIn cookie and redirect as necessary
+function checkLoginStatus() {
+    const loggedIn = document.cookie.split('; ').find(row => row.startsWith('loggedIn=')).split('=')[1];
+    if (loggedIn === 'true') {
         if (window.location.pathname === '/login' || window.location.pathname === '/') {
             window.location.href = 'https://zeeps.me/dashboard';
         }
@@ -121,7 +122,10 @@ firebase.auth().onAuthStateChanged(function(user) {
             window.location.href = 'https://zeeps.me/login';
         }
     }
-});
+}
+
+// Call checkLoginStatus on page load
+window.onload = checkLoginStatus;
 
 // Validate Functions
 function validate_email(email) {
