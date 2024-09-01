@@ -96,6 +96,8 @@ function login() {
         // Set a cookie to keep the user logged in for a week
         document.cookie = "loggedIn=true; max-age=" + (7 * 24 * 60 * 60) + "; path=/";
 
+        // Show success message with close button
+        alert('User Logged In!!');
         // Redirect to dashboard
         window.location.href = 'https://zeeps.me/dashboard';
     })
