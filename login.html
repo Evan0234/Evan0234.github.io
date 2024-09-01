@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Login + Firebase Database</title>
-         <!-- Cool Google Fonts -->
+        <!-- Cool Google Fonts -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
         <div id="content_container">
             <div id="form_container">
                 <div id="form_header_container">
-                    <h2 id="form_header"> Login + Firebase Database </h2>
+                    <h2 id="form_header"> Login/Register </h2>
                 </div>
 
                 <div id="form_content_container">
@@ -25,14 +25,10 @@
                         <input type="email" id="email" placeholder="Email">
                         <input type="password" id="password" placeholder="New Password">
 
-                        <input type="text" id="favourite_song" placeholder="The Best Song Ever">
-                        <input type="text" id="milk_before_cereal" placeholder="Milk Before Cereal? ( Yes | No )">
-
                         <div id="button_container">
                             <button onclick="login()">Login</button>
                             <button onclick="register()">Register</button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -48,5 +44,4 @@
 
     <!-- Our script must be loaded after firebase references -->
     <script src="index.js"></script>
-
 </html>
