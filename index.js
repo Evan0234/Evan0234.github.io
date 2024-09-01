@@ -20,8 +20,6 @@ function register () {
   email = document.getElementById('email').value
   password = document.getElementById('password').value
   full_name = document.getElementById('full_name').value
-  favourite_song = document.getElementById('favourite_song').value
-  milk_before_cereal = document.getElementById('milk_before_cereal').value
 
   // Validate input fields
   if (validate_email(email) == false || validate_password(password) == false) {
@@ -29,11 +27,11 @@ function register () {
     return
     // Don't continue running the code
   }
-  if (validate_field(full_name) == false || validate_field(favourite_song) == false || validate_field(milk_before_cereal) == false) {
-    alert('One or More Extra Fields is Outta Line!!')
+  if (validate_field(full_name) == false) {
+    alert('Full Name is Outta Line!!')
     return
   }
- 
+
   // Move on with Auth
   auth.createUserWithEmailAndPassword(email, password)
   .then(function() {
@@ -47,8 +45,6 @@ function register () {
     var user_data = {
       email : email,
       full_name : full_name,
-      favourite_song : favourite_song,
-      milk_before_cereal : milk_before_cereal,
       last_login : Date.now()
     }
 
@@ -108,9 +104,6 @@ function login () {
     alert(error_message)
   })
 }
-
-
-
 
 // Validate Functions
 function validate_email(email) {
