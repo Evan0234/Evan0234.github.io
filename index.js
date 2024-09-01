@@ -20,8 +20,6 @@ function register () {
   email = document.getElementById('email').value
   password = document.getElementById('password').value
   full_name = document.getElementById('full_name').value
-  favourite_song = document.getElementById('favourite_song').value
-  milk_before_cereal = document.getElementById('milk_before_cereal').value
 
   // Validate input fields
   if (validate_email(email) == false || validate_password(password) == false) {
