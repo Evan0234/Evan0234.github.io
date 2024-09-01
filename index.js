@@ -25,7 +25,6 @@ function register() {
     if (validate_email(email) == false || validate_password(password) == false) {
         alert('Email or Password is Outta Line!!');
         return;
-        // Don't continue running the code
     }
     if (validate_field(full_name) == false) {
         alert('Name field is Outta Line!!');
@@ -76,7 +75,6 @@ function login() {
     if (validate_email(email) == false || validate_password(password) == false) {
         alert('Email or Password is Outta Line!!');
         return;
-        // Don't continue running the code
     }
 
     auth.signInWithEmailAndPassword(email, password)
@@ -130,7 +128,6 @@ function validate_email(email) {
 }
 
 function validate_password(password) {
-    // Firebase only accepts lengths greater than 6
     return password.length >= 6;
 }
 
