@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+        }
+        .bubble-text {
+            background: #ffffff;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .bubble-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .bubble-text a:hover {
+            text-decoration: underline;
+        }
+        #popup {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        #popup a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        #popup a:hover {
+            text-decoration: underline;
+        }
+        #popup button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #popup button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="bubble-text">
+        <p>Welcome!</p>
+        <p>If you have an account, <a href="/login">click here</a>.</p>
+        <p>If you don't have one and you'd like to make one, <a href="/login">click here</a>.</p>
+    </div>
 
+    <div id="popup">
+        By continuing to zeeps.me you agree to our 
+        <a href="/tos" target="_blank">Terms Of Service</a>, 
+        <a href="/privacy" target="_blank">Privacy Policy</a>, 
+        <a href="/cookie-privacy" target="_blank">Cookie Policy</a>, and 
+        <a href="/aup" target="_blank">AUP</a>.
+        <button id="dismiss-btn">Dismiss</button>
+    </div>
+
+    <script>
+        // Check if the popup has been dismissed
+        if (localStorage.getItem('popupDismissed') === 'true') {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        // Add event listener to the dismiss button
+        document.getElementById('dismiss-btn').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'none';
+            localStorage.setItem('popupDismissed', 'true');
+        });
+    </script>
+</body>
+</html>
