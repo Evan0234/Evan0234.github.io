@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Login + Firebase Database</title>
-    <!-- Google Fonts -->
+    <!-- Cool Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
@@ -11,6 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
     <!-- Our stylesheet -->
     <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 </head>
 <body>
     <div id="content_container">
@@ -23,28 +27,27 @@
                 <div id="form_content_inner_container">
                     <input type="text" id="full_name" placeholder="Full name">
                     <input type="email" id="email" placeholder="Email">
-                    <input type="password" id="password" placeholder="New Password">
+                    <input type="password" id="password" placeholder="Password">
 
-                    <input type="text" id="favourite_song" placeholder="are you a bot?">
-                    <input type="text" id="milk_before_cereal" placeholder="are you a bot? ( Yes | No )">
+                    <input type="text" id="favourite_song" placeholder="Are you a bot?">
+                    <input type="text" id="milk_before_cereal" placeholder="Are you a bot? (Yes | No)">
 
                     <div id="button_container">
                         <button onclick="login()">Login</button>
                         <button onclick="register()">Register</button>
-                    </div>
-
-                    <!-- Forgot Password button -->
-                    <div id="reset_button_container">
-                        <button onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password?</button>
+                        <button onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <!-- Our script must be loaded after firebase references -->
     <script src="index.js"></script>
+    <script>
+        // Check if the user is already logged in, and redirect to dashboard
+        if (document.cookie.includes('login_token')) {
+            window.location.href = 'https://zeeps.me/dashboard';
+        }
+    </script>
 </body>
 </html>
