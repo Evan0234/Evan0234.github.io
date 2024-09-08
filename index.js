@@ -1,4 +1,4 @@
-// Firebase configuration
+// Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
     authDomain: "zeeplogin.firebaseapp.com",
@@ -11,7 +11,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Initialize variables
+// Initialize Firebase Authentication and Database
 const auth = firebase.auth();
 const database = firebase.database();
 
@@ -20,14 +20,16 @@ window.onload = function() {
     alert("⚠️ WARNING ⚠️\n\nNEVER SHARE ANYTHING FROM THE TERMINAL. IF SOMEBODY ASKED YOU TO GET SOMETHING HERE, IT'S A SCAM!");
 }
 
-// Register function
+// Set up the register function
 function register() {
-    email = document.getElementById('email').value;
-    password = document.getElementById('password').value;
-    full_name = document.getElementById('full_name').value;
-    favourite_song = document.getElementById('favourite_song').value;
-    milk_before_cereal = document.getElementById('milk_before_cereal').value;
+    // Get input fields
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const full_name = document.getElementById('full_name').value;
+    const favourite_song = document.getElementById('favourite_song').value;
+    const milk_before_cereal = document.getElementById('milk_before_cereal').value;
 
+    // Validate input fields
     if (!validate_email(email) || !validate_password(password)) {
         alert('Email or Password is Outta Line!!');
         return;
@@ -37,32 +39,43 @@ function register() {
         return;
     }
 
+    // Create user
     auth.createUserWithEmailAndPassword(email, password)
         .then(function() {
             var user = auth.currentUser;
 
+            // Send verification email
             user.sendEmailVerification().then(function() {
                 alert('Verification Email Sent! Please check your inbox.');
 
+                // Check if the email is verified
                 auth.onAuthStateChanged(function(user) {
-                    if (user && user.emailVerified) {
-                        saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal);
-                    } else {
-                        alert('Please verify your email before proceeding.');
+                    if (user) {
+                        if (user.emailVerified) {
+                            // Save user to database
+                            saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal);
+                        } else {
+                            alert('Please verify your email before proceeding.');
+                        }
                     }
                 });
             }).catch(function(error) {
+                console.error('Error while sending verification email:', error);
                 alert(error.message);
             });
         })
         .catch(function(error) {
-            alert(error.message);
+            // Handle Firebase errors
+            var error_message = error.message;
+            alert(error_message);
         });
 }
 
-// Save user data to Firebase
+// Function to save user data to Firebase Database
 function saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal) {
     var database_ref = database.ref();
+
+    // Create user data object
     var user_data = {
         email: user.email,
         full_name: full_name,
@@ -71,31 +84,41 @@ function saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal)
         last_login: Date.now()
     };
 
+    // Push user data to Firebase Database
     database_ref.child('users/' + user.uid).set(user_data);
     alert('User Created and Email Verified!!');
 }
 
-// Login function
+// Set up the login function
 function login() {
-    email = document.getElementById('email').value;
-    password = document.getElementById('password').value;
+    // Get input fields
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
+    // Validate input fields
     if (!validate_email(email) || !validate_password(password)) {
         alert('Email or Password is Outta Line!!');
         return;
     }
 
+    // Log in the user
     auth.signInWithEmailAndPassword(email, password)
         .then(function() {
             var user = auth.currentUser;
 
             if (user.emailVerified) {
+                // User is verified, log in
                 var database_ref = database.ref();
+
+                // Update user login timestamp
                 var user_data = {
                     last_login: Date.now()
                 };
 
+                // Push to Firebase Database
                 database_ref.child('users/' + user.uid).update(user_data);
+
+                // Set a cookie for the login token (7 days)
                 document.cookie = "login_token=" + user.uid + "; max-age=" + 7 * 24 * 60 * 60 + "; path=/";
 
                 alert('User Logged In!!');
@@ -105,37 +128,41 @@ function login() {
             }
         })
         .catch(function(error) {
-            alert(error.message);
+            var error_message = error.message;
+            alert(error_message);
         });
 }
 
-// Reset password function
-function resetPassword() {
-    var email = document.getElementById('email').value;
+// Function to validate email
+function validate_email(email) {
+    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    return expression.test(email);
+}
+
+// Function to validate password
+function validate_password(password) {
+    return password.length >= 6;
+}
+
+// Function to validate other input fields
+function validate_field(field) {
+    return field != null && field.length > 0;
+}
+
+// Password reset function
+function sendPasswordReset() {
+    const email = document.getElementById('email').value;
+
     if (!validate_email(email)) {
-        alert('Please enter a valid email address.');
+        alert('Please enter a valid email.');
         return;
     }
 
     auth.sendPasswordResetEmail(email)
         .then(function() {
-            alert('Password reset email sent!');
+            alert('Password Reset Email Sent!');
         })
         .catch(function(error) {
             alert(error.message);
         });
-}
-
-// Validation functions
-function validate_email(email) {
-    var expression = /^[^@]+@\w+(\.\w+)+\w$/;
-    return expression.test(email);
-}
-
-function validate_password(password) {
-    return password.length >= 6;
-}
-
-function validate_field(field) {
-    return field != null && field.length > 0;
 }
