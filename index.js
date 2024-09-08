@@ -8,12 +8,13 @@ var firebaseConfig = {
     appId: "1:343221159933:web:e6c3e1e7ec6161a48dfb94",
     measurementId: "G-DE7X1YKVGY"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and Database
 const auth = firebase.auth();
-const database = firebase.database();  // This should work if Firebase is properly included
+const database = firebase.database(); // Ensure Firebase SDKs are loaded
 
 // Show warning message on page load
 window.onload = function() {
