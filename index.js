@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and Firestore
 const auth = firebase.auth();
-const db = firebase.firestore(); // Use Firestore instead of Realtime Database
+const db = firebase.firestore(); // Ensure Firestore is initialized after Firebase
 
 // Show warning message on page load
 window.onload = function() {
