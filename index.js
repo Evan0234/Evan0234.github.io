@@ -20,7 +20,7 @@ window.onload = function() {
     alert("⚠️ WARNING ⚠️\n\nNEVER SHARE ANYTHING FROM THE TERMINAL. IF SOMEBODY ASKED YOU TO GET SOMETHING HERE, IT'S A SCAM!");
 }
 
-// Set up the register function
+// Register function
 function register() {
     // Get input fields
     const email = document.getElementById('email').value;
@@ -42,7 +42,7 @@ function register() {
     // Create user
     auth.createUserWithEmailAndPassword(email, password)
         .then(function() {
-            var user = auth.currentUser;
+            const user = auth.currentUser;
 
             // Send verification email
             user.sendEmailVerification().then(function() {
@@ -65,18 +65,16 @@ function register() {
             });
         })
         .catch(function(error) {
-            // Handle Firebase errors
-            var error_message = error.message;
-            alert(error_message);
+            alert(error.message);
         });
 }
 
-// Function to save user data to Firebase Database
+// Save user data to Firebase Database
 function saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal) {
-    var database_ref = database.ref();
+    const database_ref = database.ref();
 
     // Create user data object
-    var user_data = {
+    const user_data = {
         email: user.email,
         full_name: full_name,
         favourite_song: favourite_song,
@@ -89,7 +87,7 @@ function saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal)
     alert('User Created and Email Verified!!');
 }
 
-// Set up the login function
+// Login function
 function login() {
     // Get input fields
     const email = document.getElementById('email').value;
@@ -101,21 +99,17 @@ function login() {
         return;
     }
 
-    // Log in the user
+    // Sign in the user
     auth.signInWithEmailAndPassword(email, password)
-        .then(function() {
-            var user = auth.currentUser;
+        .then(function(userCredential) {
+            const user = userCredential.user;
 
             if (user.emailVerified) {
-                // User is verified, log in
-                var database_ref = database.ref();
-
-                // Update user login timestamp
-                var user_data = {
+                // Update last login time in database
+                const database_ref = database.ref();
+                const user_data = {
                     last_login: Date.now()
                 };
-
-                // Push to Firebase Database
                 database_ref.child('users/' + user.uid).update(user_data);
 
                 // Set a cookie for the login token (7 days)
@@ -128,28 +122,27 @@ function login() {
             }
         })
         .catch(function(error) {
-            var error_message = error.message;
-            alert(error_message);
+            alert(error.message);
         });
 }
 
-// Function to validate email
+// Validate email format
 function validate_email(email) {
     const expression = /^[^@]+@\w+(\.\w+)+\w$/;
     return expression.test(email);
 }
 
-// Function to validate password
+// Validate password length
 function validate_password(password) {
     return password.length >= 6;
 }
 
-// Function to validate other input fields
+// Validate other input fields
 function validate_field(field) {
     return field != null && field.length > 0;
 }
 
-// Password reset function
+// Send password reset email
 function sendPasswordReset() {
     const email = document.getElementById('email').value;
 
