@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and Database
 const auth = firebase.auth();
-const database = firebase.database();
+const database = firebase.database();  // This should work if Firebase is properly included
 
 // Show warning message on page load
 window.onload = function() {
