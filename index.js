@@ -12,9 +12,9 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and Database
+// Initialize Firebase Authentication and Firestore
 const auth = firebase.auth();
-const database = firebase.database(); // Ensure Firebase SDKs are loaded
+const db = firebase.firestore(); // Use Firestore instead of Realtime Database
 
 // Show warning message on page load
 window.onload = function() {
@@ -41,8 +41,8 @@ function register() {
 
         // Create user
         auth.createUserWithEmailAndPassword(email, password)
-            .then(function() {
-                const user = auth.currentUser;
+            .then(function(userCredential) {
+                const user = userCredential.user;
 
                 // Send verification email
                 user.sendEmailVerification().then(function() {
@@ -52,8 +52,8 @@ function register() {
                     auth.onAuthStateChanged(function(user) {
                         if (user) {
                             if (user.emailVerified) {
-                                // Save user to database
-                                saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal);
+                                // Save user to Firestore
+                                saveUserToFirestore(user, full_name, favourite_song, milk_before_cereal);
                             } else {
                                 alert('Please verify your email before proceeding.');
                             }
@@ -73,25 +73,28 @@ function register() {
     }
 }
 
-// Save user data to Firebase Database
-function saveUserToDatabase(user, full_name, favourite_song, milk_before_cereal) {
+// Save user data to Firestore
+function saveUserToFirestore(user, full_name, favourite_song, milk_before_cereal) {
     try {
-        const database_ref = database.ref();
-
-        // Create user data object
-        const user_data = {
+        // Add user data to Firestore with auto-generated ID
+        db.collection('users').add({
+            uid: user.uid,
             email: user.email,
             full_name: full_name,
             favourite_song: favourite_song,
             milk_before_cereal: milk_before_cereal,
             last_login: Date.now()
-        };
-
-        // Push user data to Firebase Database
-        database_ref.child('users/' + user.uid).set(user_data);
-        alert('User Created and Email Verified!!');
+        })
+        .then((docRef) => {
+            console.log('Document written with ID: ', docRef.id);
+            alert('User Created and Email Verified!!');
+        })
+        .catch((error) => {
+            console.error('Error adding document: ', error);
+            alert('Error creating user: ' + error.message);
+        });
     } catch (error) {
-        console.error('Error in saveUserToDatabase function:', error.message);
+        console.error('Error in saveUserToFirestore function:', error.message);
     }
 }
 
@@ -113,12 +116,11 @@ function login() {
                 const user = userCredential.user;
 
                 if (user.emailVerified) {
-                    // Update last login time in database
-                    const database_ref = database.ref();
-                    const user_data = {
+                    // Update last login time in Firestore
+                    const userRef = db.collection('users').doc(user.uid);
+                    userRef.update({
                         last_login: Date.now()
-                    };
-                    database_ref.child('users/' + user.uid).update(user_data);
+                    });
 
                     // Set a cookie for the login token (7 days)
                     document.cookie = "login_token=" + user.uid + "; max-age=" + 7 * 24 * 60 * 60 + "; path=/";
