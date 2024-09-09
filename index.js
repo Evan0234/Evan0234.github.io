@@ -1,4 +1,4 @@
-// Your web app's Firebase configuration
+// Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
     authDomain: "zeeplogin.firebaseapp.com",
@@ -11,38 +11,43 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth(); // Ensure Firebase auth is initialized
-const db = firebase.firestore(); // Ensure Firestore is initialized
+
+// Initialize Firebase Authentication and Firestore
+const auth = firebase.auth();
+const db = firebase.firestore(); // Initialize Firestore
 
 // Register function
 function register() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const favourite_song = document.getElementById('favourite_song').value;
+    const milk_before_cereal = document.getElementById('milk_before_cereal').value;
 
-    // Validate input fields
-    if (!validate_email(email) || !validate_password(password)) {
-        alert('Invalid email or password');
-        return;
-    }
-
-    // Create user with email and password
     auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(function(userCredential) {
             const user = userCredential.user;
 
             // Send verification email
-            user.sendEmailVerification().then(() => {
-                alert('Verification email sent! Please check your inbox.');
-            }).catch((error) => {
-                console.error('Error sending verification email:', error);
-                alert(error.message);
-            });
+            user.sendEmailVerification().then(function() {
+                alert('Verification Email Sent! Please check your inbox.');
 
-            // Redirect after successful registration or perform any action
+                // Save user to Firestore after verification
+                db.collection('users').doc(user.uid).set({
+                    email: user.email,
+                    favourite_song: favourite_song,
+                    milk_before_cereal: milk_before_cereal,
+                    last_login: Date.now()
+                })
+                .then(() => {
+                    alert('User data saved to Firestore!');
+                })
+                .catch(error => {
+                    console.error('Error saving user data: ', error);
+                });
+            });
         })
-        .catch((error) => {
-            console.error('Error during registration:', error);
-            alert(error.message);
+        .catch(function(error) {
+            console.error('Error during registration: ', error);
         });
 }
 
@@ -51,38 +56,22 @@ function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    // Validate input fields
-    if (!validate_email(email) || !validate_password(password)) {
-        alert('Invalid email or password');
-        return;
-    }
-
-    // Sign in the user
     auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(function(userCredential) {
             const user = userCredential.user;
 
+            // Check email verification
             if (user.emailVerified) {
-                // Successful login, proceed further
-                alert('User Logged In!!');
-                window.location.href = 'https://zeeps.me/dashboard'; // Redirect to dashboard
+                alert('User logged in!');
+                // Update last login time in Firestore
+                db.collection('users').doc(user.uid).update({
+                    last_login: Date.now()
+                });
             } else {
                 alert('Please verify your email before logging in.');
             }
         })
-        .catch((error) => {
-            console.error('Error during login:', error);
-            alert(error.message);
+        .catch(function(error) {
+            console.error('Error during login: ', error);
         });
-}
-
-// Validate email format
-function validate_email(email) {
-    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
-    return expression.test(email);
-}
-
-// Validate password length
-function validate_password(password) {
-    return password.length >= 6;
 }
