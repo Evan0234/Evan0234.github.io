@@ -2,19 +2,20 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Login + Firebase Database</title>
-    <!-- Cool Google Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <title>Login + Firebase Firestore</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
-    <!-- Our stylesheet -->
+    
+    <!-- Your CSS file -->
     <link rel="stylesheet" type="text/css" href="index.css">
+    
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 </head>
 <body>
     <div id="content_container">
@@ -27,6 +28,8 @@
                 <div id="form_content_inner_container">
                     <input type="email" id="email" placeholder="Email">
                     <input type="password" id="password" placeholder="Password">
+                    <input type="text" id="favourite_song" placeholder="Favourite Song">
+                    <input type="text" id="milk_before_cereal" placeholder="Milk before Cereal (Yes | No)">
 
                     <div id="button_container">
                         <button onclick="login()">Login</button>
@@ -37,13 +40,8 @@
             </div>
         </div>
     </div>
-    <!-- Our script must be loaded after firebase references -->
+
+    <!-- Your external JavaScript file -->
     <script src="index.js"></script>
-    <script>
-        // Check if the user is already logged in, and redirect to dashboard
-        if (document.cookie.includes('login_token')) {
-            window.location.href = 'https://zeeps.me/dashboard';
-        }
-    </script>
 </body>
 </html>
