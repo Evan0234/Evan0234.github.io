@@ -25,7 +25,7 @@ function register() {
 
         // Validate input fields
         if (!validate_email(email) || !validate_password(password)) {
-            throw new Error('Email or Password is Outta Line!!');
+            throw new Error('Email or Password is invalid!');
         }
 
         // Create user
@@ -61,7 +61,7 @@ function saveUserToFirestore(user) {
         })
         .then((docRef) => {
             console.log('Document written with ID: ', docRef.id);
-            alert('User Created and Email Verified!!');
+            alert('User Created and Email Verified!');
         })
         .catch((error) => {
             console.error('Error adding document: ', error);
@@ -81,7 +81,7 @@ function login() {
 
         // Validate input fields
         if (!validate_email(email) || !validate_password(password)) {
-            throw new Error('Email or Password is Outta Line!!');
+            throw new Error('Email or Password is invalid!');
         }
 
         // Sign in the user
@@ -99,7 +99,7 @@ function login() {
                     // Set a cookie for the login token (7 days)
                     document.cookie = "login_token=" + user.uid + "; max-age=" + 7 * 24 * 60 * 60 + "; path=/";
 
-                    alert('User Logged In!!');
+                    alert('User Logged In!');
                     window.location.href = 'https://zeeps.me/dashboard';
                 } else {
                     alert('Please verify your email before logging in.');
