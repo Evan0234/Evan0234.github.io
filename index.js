@@ -117,7 +117,7 @@ function login() {
                     document.cookie = "login_token=" + user.uid + "; max-age=" + 7 * 24 * 60 * 60 + "; path=/";
 
                     alert('User Logged In!!');
-                    window.location.href = 'https://zeeps.me/dashboard';
+                    window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
                 }
