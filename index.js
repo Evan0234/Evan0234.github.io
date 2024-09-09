@@ -11,86 +11,69 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// Initialize Firebase Authentication
-const auth = firebase.auth();
+const auth = firebase.auth(); // Ensure Firebase auth is initialized
+const db = firebase.firestore(); // Ensure Firestore is initialized
 
 // Register function
 function register() {
-    try {
-        // Get input fields
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-        // Validate input fields
-        if (!validate_email(email) || !validate_password(password)) {
-            throw new Error('Email or Password is Outta Line!!');
-        }
+    // Validate input fields
+    if (!validate_email(email) || !validate_password(password)) {
+        alert('Invalid email or password');
+        return;
+    }
 
-        // Create user
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(function(userCredential) {
-                const user = userCredential.user;
+    // Create user with email and password
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
 
-                // Send verification email
-                user.sendEmailVerification().then(function() {
-                    alert('Verification Email Sent! Please check your inbox.');
-
-                    // Check if the email is verified
-                    auth.onAuthStateChanged(function(user) {
-                        if (user) {
-                            if (user.emailVerified) {
-                                alert('User Created and Email Verified!!');
-                            } else {
-                                alert('Please verify your email before proceeding.');
-                            }
-                        }
-                    });
-                }).catch(function(error) {
-                    console.error('Error while sending verification email:', error);
-                    alert(error.message);
-                });
-            })
-            .catch(function(error) {
-                console.error('Error during registration:', error);
+            // Send verification email
+            user.sendEmailVerification().then(() => {
+                alert('Verification email sent! Please check your inbox.');
+            }).catch((error) => {
+                console.error('Error sending verification email:', error);
                 alert(error.message);
             });
-    } catch (error) {
-        console.error('Error in register function:', error.message);
-    }
+
+            // Redirect after successful registration or perform any action
+        })
+        .catch((error) => {
+            console.error('Error during registration:', error);
+            alert(error.message);
+        });
 }
 
 // Login function
 function login() {
-    try {
-        // Get input fields
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-        // Validate input fields
-        if (!validate_email(email) || !validate_password(password)) {
-            throw new Error('Email or Password is Outta Line!!');
-        }
-
-        // Sign in the user
-        auth.signInWithEmailAndPassword(email, password)
-            .then(function(userCredential) {
-                const user = userCredential.user;
-
-                if (user.emailVerified) {
-                    alert('User Logged In!!');
-                    window.location.href = 'https://zeeps.me/dashboard';
-                } else {
-                    alert('Please verify your email before logging in.');
-                }
-            })
-            .catch(function(error) {
-                console.error('Error during login:', error);
-                alert(error.message);
-            });
-    } catch (error) {
-        console.error('Error in login function:', error.message);
+    // Validate input fields
+    if (!validate_email(email) || !validate_password(password)) {
+        alert('Invalid email or password');
+        return;
     }
+
+    // Sign in the user
+    auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+
+            if (user.emailVerified) {
+                // Successful login, proceed further
+                alert('User Logged In!!');
+                window.location.href = 'https://zeeps.me/dashboard'; // Redirect to dashboard
+            } else {
+                alert('Please verify your email before logging in.');
+            }
+        })
+        .catch((error) => {
+            console.error('Error during login:', error);
+            alert(error.message);
+        });
 }
 
 // Validate email format
