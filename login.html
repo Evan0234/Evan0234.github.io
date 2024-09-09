@@ -28,8 +28,6 @@
                 <div id="form_content_inner_container">
                     <input type="email" id="email" placeholder="Email">
                     <input type="password" id="password" placeholder="Password">
-                    <input type="text" id="favourite_song" placeholder="Favourite Song">
-                    <input type="text" id="milk_before_cereal" placeholder="Milk before Cereal (Yes | No)">
 
                     <div id="button_container">
                         <button onclick="login()">Login</button>
@@ -43,17 +41,5 @@
 
     <!-- Your external JavaScript file -->
     <script src="index.js"></script>
-    
-    <script>
-        // Check if the user is already logged in and redirect if so
-        function checkLogin() {
-            if (document.cookie.includes('login_token')) {
-                window.location.href = 'https://dashboard.zeeps.me';
-            }
-        }
-        
-        // Run the checkLogin function on page load
-        window.onload = checkLogin;
-    </script>
 </body>
 </html>
