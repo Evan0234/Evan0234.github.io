@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and Firestore
 const auth = firebase.auth();
-const db = firebase.firestore(); // Use Firestore instead of Realtime Database
+const db = firebase.firestore();
 
 // Show warning message on page load
 window.onload = function() {
@@ -39,24 +39,12 @@ function register() {
                 const user = userCredential.user;
 
                 // Send verification email
-                user.sendEmailVerification().then(function() {
-                    alert('Verification Email Sent! Please check your inbox.');
-
-                    // Check if the email is verified
-                    auth.onAuthStateChanged(function(user) {
-                        if (user) {
-                            if (user.emailVerified) {
-                                // Save user to Firestore
-                                saveUserToFirestore(user);
-                            } else {
-                                alert('Please verify your email before proceeding.');
-                            }
-                        }
+                return user.sendEmailVerification()
+                    .then(function() {
+                        alert('Verification Email Sent! Please check your inbox.');
+                        // Save user to Firestore
+                        return saveUserToFirestore(user);
                     });
-                }).catch(function(error) {
-                    console.error('Error while sending verification email:', error);
-                    alert(error.message);
-                });
             })
             .catch(function(error) {
                 console.error('Error during registration:', error);
@@ -71,7 +59,7 @@ function register() {
 function saveUserToFirestore(user) {
     try {
         // Add user data to Firestore with auto-generated ID
-        db.collection('users').add({
+        return db.collection('users').add({
             uid: user.uid,
             email: user.email,
             last_login: Date.now()
@@ -117,7 +105,7 @@ function login() {
                     document.cookie = "login_token=" + user.uid + "; max-age=" + 7 * 24 * 60 * 60 + "; path=/";
 
                     alert('User Logged In!!');
-                    window.location.href = 'https://dashboard.zeeps.me';
+                    window.location.href = 'https://zeeps.me/dashboard';
                 } else {
                     alert('Please verify your email before logging in.');
                 }
