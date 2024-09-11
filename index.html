@@ -12,18 +12,18 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: #f0f0f0;
+            background: #0077b6; 
         }
         .bubble-text {
             background: #ffffff;
-            border: 2px solid #007bff;
+            border: 2px solid #0077b6; 
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
         .bubble-text a {
-            color: #007bff;
+            color: #0077b6; 
             text-decoration: none;
             font-weight: bold;
         }
@@ -43,7 +43,7 @@
             z-index: 1000;
         }
         #popup a {
-            color: #007bff;
+            color: #0077b6; 
             text-decoration: none;
             margin: 0 5px;
         }
@@ -51,7 +51,7 @@
             text-decoration: underline;
         }
         #popup button {
-            background: #007bff;
+            background: #0077b6;
             color: #fff;
             border: none;
             padding: 5px 10px;
@@ -80,12 +80,11 @@
     </div>
 
     <script>
-        // Check if the popup has been dismissed
         if (localStorage.getItem('popupDismissed') === 'true') {
             document.getElementById('popup').style.display = 'none';
         }
 
-        // Add event listener to the dismiss button
+
         document.getElementById('dismiss-btn').addEventListener('click', function() {
             document.getElementById('popup').style.display = 'none';
             localStorage.setItem('popupDismissed', 'true');
