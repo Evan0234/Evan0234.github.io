@@ -12,18 +12,18 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: #0077b6; 
+            background: #e0f7fa; 
         }
         .bubble-text {
             background: #ffffff;
-            border: 2px solid #0077b6; 
+            border: 2px solid #007bff;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
         .bubble-text a {
-            color: #0077b6; 
+            color: #007bff;
             text-decoration: none;
             font-weight: bold;
         }
@@ -43,7 +43,7 @@
             z-index: 1000;
         }
         #popup a {
-            color: #0077b6; 
+            color: #007bff;
             text-decoration: none;
             margin: 0 5px;
         }
@@ -51,7 +51,7 @@
             text-decoration: underline;
         }
         #popup button {
-            background: #0077b6;
+            background: #007bff;
             color: #fff;
             border: none;
             padding: 5px 10px;
@@ -83,7 +83,6 @@
         if (localStorage.getItem('popupDismissed') === 'true') {
             document.getElementById('popup').style.display = 'none';
         }
-
 
         document.getElementById('dismiss-btn').addEventListener('click', function() {
             document.getElementById('popup').style.display = 'none';
