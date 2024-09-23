@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         mail($email, $confirmation_subject, $confirmation_body, "From: noreply@zeeps.me");
         
-        // Redirect or show success message
+        // Send a success response back to AJAX
         echo "Thank you for your message! We will get back to you soon.";
     } else {
         echo "There was a problem sending your message. Please try again later.";
