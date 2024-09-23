@@ -9,7 +9,7 @@ fetch("https://api.ipify.org?format=json")
         // If IP is banned
         if (bannedIPs.includes(userIP)) {
             // Redirect to /banned page
-            window.location.href = "/banned";
+            window.location.href = "/ban";
         } else {
             // Continue loading the page
             console.log("IP not banned, allowing access.");
