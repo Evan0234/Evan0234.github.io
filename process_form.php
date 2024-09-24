@@ -14,6 +14,9 @@ use PHPMailer\PHPMailer\Exception;
 // Load environment variables
 $zohoPassword = getenv('ZOHO_PASSWORD');
 
+// Initialize response message
+$responseMessage = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user inputs
     $name = htmlspecialchars($_POST['name']);
@@ -45,13 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Send the email to the support team
         if (!$mail->send()) {
-            echo "Mailer Error: " . $mail->ErrorInfo;
+            $responseMessage = "Mailer Error: " . $mail->ErrorInfo;
         } else {
             // Confirmation email to the user
             $confirmation_subject = 'Support Ticket Received';
             $confirmation_body = "Hi $name,\n\nThank you for contacting Zeeps Support!\n\nWe have received your support ticket and our team is currently reviewing your request. Your satisfaction is our priority, and we appreciate your patience as we work to assist you.\n\nBest regards,\nThe Zeeps Support Team\nsupport@zeeps.me";
 
-            // Send the confirmation email to the user
+            // Clear previous recipients and send confirmation
             $mail->clearAddresses(); // Clear previous recipients
             $mail->addAddress($email); // Add the user email for confirmation
             $mail->Subject = $confirmation_subject;
@@ -59,14 +62,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Send the confirmation email
             if (!$mail->send()) {
-                echo "Confirmation Email Error: " . $mail->ErrorInfo;
+                $responseMessage = "Confirmation Email Error: " . $mail->ErrorInfo;
             } else {
-                echo "Thank you for your message! We will get back to you soon.";
+                $responseMessage = "Thank you for your message! We will get back to you soon.";
             }
         }
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $responseMessage = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
-    echo "Invalid request.";
+    $responseMessage = "Invalid request.";
 }
+
+// Display the response message
+echo "<html lang='en'>
+<head><title>Form Submission Response</title></head>
+<body>
+<h1>$responseMessage</h1>
+<a href='support.html'>Go back</a>
+</body>
+</html>";
