@@ -4,35 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support Form</title>
-  <script>
-    function submitForm(event) {
-      event.preventDefault(); // Prevent the default form submission
-
-      // Create a FormData object from the form
-      const formData = new FormData(event.target);
-
-      // Send the form data using fetch API
-      fetch('process_form.php', {
-        method: 'POST',
-        body: formData,
-      })
-      .then(response => response.text())
-      .then(data => {
-        // Display a success message
-        alert(data);
-        // Optionally reset the form
-        event.target.reset();
-      })
-      .catch(error => {
-        alert('There was a problem with your submission: ' + error.message);
-      });
-    }
-  </script>
 </head>
 <body>
 
   <h1>Contact Support</h1>
-  <form onsubmit="submitForm(event)">
+  <form action="process_form.php" method="POST">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
 
