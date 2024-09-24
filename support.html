@@ -6,26 +6,35 @@
   <title>Support Form</title>
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
+    // Initialize EmailJS with your Public API Key
     (function(){
-      emailjs.init("_qCZ1kSiqPZhhH_Sl"); // Your Public API Key
+      emailjs.init("_qCZ1kSiqPZhhH_Sl");
     })();
 
+    // Function to send the email
     function sendEmail(e) {
       e.preventDefault(); // Prevent default form submission
 
-      emailjs.sendForm('service_vkjljvq', 'template_ryvrptl', this) // Your Service ID and Template ID
+      // Send the form data using EmailJS
+      emailjs.sendForm('service_vkjljvq', 'template_ryvrptl', this)
         .then(function() {
           alert('Your message has been sent successfully!');
         }, function(error) {
           alert('Failed to send the message. Error: ' + JSON.stringify(error));
         });
     }
+
+    // Wait until the document is fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById("support-form");
+      form.addEventListener("submit", sendEmail); // Attach the submit event to the form
+    });
   </script>
 </head>
 <body>
 
   <h1>Contact Support</h1>
-  <form id="support-form" onsubmit="sendEmail(event)">
+  <form id="support-form">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
 
