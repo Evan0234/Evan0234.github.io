@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 $zohoPassword = getenv('ZOHO_PASSWORD');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize user inputs
     $name = htmlspecialchars($_POST['name']);
     $email = htmlspecialchars($_POST['email']);
     $message = htmlspecialchars($_POST['message']);
