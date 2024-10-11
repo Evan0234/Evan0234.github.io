@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Check</title>
+    <style>
+        #vpnWarning {
+            display: none;
+            background-color: #ffcc00;
+            color: black;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div id="vpnWarning">It looks like you're using a VPN. Please disable it to access this website.</div>
+    
+    <script>
+        // Function to check VPN
+        async function checkVPN() {
+            try {
+                const response = await fetch('http://ip-api.com/json/');
+                const data = await response.json();
+
+                // Check if the user is using a VPN
+                if (data.proxy) {
+                    document.getElementById('vpnWarning').style.display = 'block';
+                } 
+            } catch (error) {
+                console.error('Error fetching IP data:', error);
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = checkVPN;
+    </script>
+</body>
+</html>
