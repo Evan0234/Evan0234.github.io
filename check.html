@@ -21,8 +21,8 @@
     <script>
         async function checkVPN() {
             try {
-                // Use HTTP for the API request
-                const response = await fetch('http://ip-api.com/json/');
+                // Fetch the user's IP information
+                const response = await fetch('http://ip-api.com/json/?fields=proxy');
                 const data = await response.json();
 
                 // Check if the user is using a VPN
