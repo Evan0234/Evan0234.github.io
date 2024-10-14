@@ -29,17 +29,12 @@ async function register() {
     }
 
     try {
-        // Get user's IP address and additional information
-        const ipResponse = await fetch('http://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy,query');
+        // Get user's IP address
+        const ipResponse = await fetch('https://api64.ipify.org?format=json');
         const ipData = await ipResponse.json();
 
-        // Log IP data to the console
-        console.log("User's IP Address Data:", ipData);
-
-        // Check if the API response status is 'success'
-        if (ipData.status !== 'success') {
-            throw new Error(ipData.message || 'Failed to get IP address data');
-        }
+        // Log the user's IP address
+        console.log("User's IP Address:", ipData.ip);
 
         // Create user and send email verification
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
@@ -47,11 +42,11 @@ async function register() {
         await user.sendEmailVerification();
         alert('Verification Email Sent. Please verify your email before logging in.');
 
-        // Log user UID and all IP data to Firestore
+        // Log user UID and IP address to Firestore
         await db.collection('userLogs').doc(user.uid).set({
             uid: user.uid,
             email: email,
-            ipData: ipData, // Store entire IP data object
+            ipAddress: ipData.ip, // Store the user's IP address
             signupTimestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
