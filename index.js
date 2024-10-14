@@ -30,6 +30,9 @@ async function register() {
         const ipData = await ipResponse.json();
         const ipAddress = ipData.ip;
 
+        // Log IP address to the console
+        console.log("User's IP Address:", ipAddress);
+
         // Create user and send email verification
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
