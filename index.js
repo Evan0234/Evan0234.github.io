@@ -13,9 +13,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // Initialize Firestore
-const db = firebase.firestore();  // Moved this line after firebase.initializeApp
+const db = firebase.firestore(); // Firestore must be initialized after Firebase
 
-const auth = firebase.auth();
+// Initialize Firebase Auth
+const auth = firebase.auth(); // Firebase Auth must be initialized after Firebase
 
 // Register function
 async function register() {
@@ -28,13 +29,17 @@ async function register() {
     }
 
     try {
-        // Get user's IP address
-        const ipResponse = await fetch('https://api.apify.com/v2/browser-info/ip');
+        // Get user's IP address and additional information
+        const ipResponse = await fetch('http://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy,query');
         const ipData = await ipResponse.json();
-        const ipAddress = ipData.ip;
 
-        // Log IP address to the console
-        console.log("User's IP Address:", ipAddress);
+        // Log IP data to the console
+        console.log("User's IP Address Data:", ipData);
+
+        // Check if the API response status is 'success'
+        if (ipData.status !== 'success') {
+            throw new Error(ipData.message || 'Failed to get IP address data');
+        }
 
         // Create user and send email verification
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
@@ -42,11 +47,11 @@ async function register() {
         await user.sendEmailVerification();
         alert('Verification Email Sent. Please verify your email before logging in.');
 
-        // Log user UID and IP address to Firestore
+        // Log user UID and all IP data to Firestore
         await db.collection('userLogs').doc(user.uid).set({
             uid: user.uid,
-            ip: ipAddress,
             email: email,
+            ipData: ipData, // Store entire IP data object
             signupTimestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
@@ -73,7 +78,7 @@ function login() {
         .then(userCredential => {
             const user = userCredential.user;
             if (user.emailVerified) {
-                window.location.href = '/dashboard';
+                window.location.href = '/dashboard'; // Redirect to dashboard
             } else {
                 alert('Please verify your email before logging in.');
                 auth.signOut();
@@ -99,6 +104,6 @@ function validate_password(password) {
 // Redirect to /dashboard if already logged in
 auth.onAuthStateChanged(user => {
     if (user && user.emailVerified) {
-        window.location.href = '/dashboard';
+        window.location.href = '/dashboard'; // Redirect to dashboard
     }
 });
