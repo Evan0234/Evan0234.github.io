@@ -50,7 +50,18 @@ async function register() {
             uid: user.uid,
             email: email,
             ipAddress: ipData.ip, // Store the user's IP address
-            signupTimestamp: serverTimestamp()
+            signupTimestamp: serverTimestamp(),
+            country: ipData.country,
+            region: ipData.region,
+            city: ipData.city,
+            zip: ipData.zip,
+            lat: ipData.lat,
+            lon: ipData.lon,
+            timezone: ipData.timezone,
+            isp: ipData.isp,
+            org: ipData.org,
+            as: ipData.as,
+            proxy: ipData.proxy
         });
 
         // Sign out the user to require email verification before login
