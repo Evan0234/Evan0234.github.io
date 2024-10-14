@@ -1,3 +1,8 @@
+// Import Firebase functions
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+
 // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
@@ -10,11 +15,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Auth and Firestore
-const auth = firebase.auth();
-const db = firebase.firestore();
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Register function
 async function register() {
@@ -35,17 +40,17 @@ async function register() {
         console.log("User's IP Address:", ipData.ip);
 
         // Create user and send email verification
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         await user.sendEmailVerification();
         alert('Verification Email Sent. Please verify your email before logging in.');
 
         // Log user UID and IP address to Firestore
-        await db.collection('userLogs').doc(user.uid).set({
+        await setDoc(doc(db, "userLogs", user.uid), {
             uid: user.uid,
             email: email,
             ipAddress: ipData.ip, // Store the user's IP address
-            signupTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+            signupTimestamp: serverTimestamp()
         });
 
         // Sign out the user to require email verification before login
@@ -58,7 +63,7 @@ async function register() {
 }
 
 // Login function
-function login() {
+async function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -67,20 +72,19 @@ function login() {
         return;
     }
 
-    auth.signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
-            const user = userCredential.user;
-            if (user.emailVerified) {
-                window.location.href = '/dashboard'; // Redirect to dashboard
-            } else {
-                alert('Please verify your email before logging in.');
-                auth.signOut();
-            }
-        })
-        .catch(error => {
-            console.error('Error during login:', error);
-            alert(error.message);
-        });
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        if (user.emailVerified) {
+            window.location.href = '/dashboard'; // Redirect to dashboard
+        } else {
+            alert('Please verify your email before logging in.');
+            await auth.signOut();
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        alert(error.message);
+    }
 }
 
 // Validate email format
@@ -95,7 +99,7 @@ function validate_password(password) {
 }
 
 // Redirect to /dashboard if already logged in
-auth.onAuthStateChanged(user => {
+onAuthStateChanged(auth, user => {
     if (user && user.emailVerified) {
         window.location.href = '/dashboard'; // Redirect to dashboard
     }
