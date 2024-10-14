@@ -1,5 +1,5 @@
-// Your web app's Firebase configuration
-var firebaseConfig = {
+// Firebase configuration
+const firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
     authDomain: "zeeplogin.firebaseapp.com",
     projectId: "zeeplogin",
@@ -11,116 +11,77 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// Initialize Firebase Authentication and Firestore
 const auth = firebase.auth();
-const db = firebase.firestore();
 
-// Register function
-function register() {
-    try {
-        // Get input fields
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // Validate input fields
-        if (!validate_email(email) || !validate_password(password)) {
-            throw new Error('Email or Password is invalid!');
-        }
-
-        // Create user
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(function(userCredential) {
-                const user = userCredential.user;
-
-                // Send verification email
-                return user.sendEmailVerification()
-                    .then(function() {
-                        alert('Verification Email Sent! Please check your inbox.');
-                        // Save user to Firestore
-                        return saveUserToFirestore(user);
-                    });
-            })
-            .catch(function(error) {
-                console.error('Error during registration:', error);
-                alert(error.message);
-            });
-    } catch (error) {
-        console.error('Error in register function:', error.message);
-    }
-}
-
-// Save user data to Firestore
-function saveUserToFirestore(user) {
-    try {
-        // Add user data to Firestore with auto-generated ID
-        return db.collection('users').add({
-            uid: user.uid,
-            email: user.email,
-            last_login: Date.now()
-        })
-        .then((docRef) => {
-            console.log('Document written with ID: ', docRef.id);
-            alert('User Created and Email Verified!');
-        })
-        .catch((error) => {
-            console.error('Error adding document: ', error);
-            alert('Error creating user: ' + error.message);
-        });
-    } catch (error) {
-        console.error('Error in saveUserToFirestore function:', error.message);
-    }
-}
+// Set session persistence
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .catch(error => {
+        console.error("Error setting persistence:", error);
+    });
 
 // Login function
 function login() {
-    try {
-        // Get input fields
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-        // Validate input fields
-        if (!validate_email(email) || !validate_password(password)) {
-            throw new Error('Email or Password is invalid!');
-        }
-
-        // Sign in the user
-        auth.signInWithEmailAndPassword(email, password)
-            .then(function(userCredential) {
-                const user = userCredential.user;
-
-                if (user.emailVerified) {
-                    // Update last login time in Firestore
-                    const userRef = db.collection('users').doc(user.uid);
-                    userRef.update({
-                        last_login: Date.now()
-                    });
-
-                    // Set a cookie for the login token (7 days)
-                    document.cookie = "login_token=" + user.uid + "; max-age=" + 7 * 24 * 60 * 60 + "; path=/";
-
-                    alert('User Logged In!');
-                    window.location.href = 'https://zeeps.me/dashboard';
-                } else {
-                    alert('Please verify your email before logging in.');
-                }
-            })
-            .catch(function(error) {
-                console.error('Error during login:', error);
-                alert(error.message);
-            });
-    } catch (error) {
-        console.error('Error in login function:', error.message);
+    if (!validate_email(email) || !validate_password(password)) {
+        alert('Invalid email or password!');
+        return;
     }
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            const user = userCredential.user;
+            if (user.emailVerified) {
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Please verify your email before logging in.');
+                auth.signOut();
+            }
+        })
+        .catch(error => {
+            console.error("Error during login:", error);
+            alert(error.message);
+        });
 }
 
-// Validate email format
+// Register function
+function register() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (!validate_email(email) || !validate_password(password)) {
+        alert('Invalid email or password!');
+        return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            const user = userCredential.user;
+            user.sendEmailVerification()
+                .then(() => {
+                    alert('Verification Email Sent. Please verify your email before logging in.');
+                });
+        })
+        .catch(error => {
+            console.error("Error during registration:", error);
+            alert(error.message);
+        });
+}
+
+// Helper functions
 function validate_email(email) {
     const expression = /^[^@]+@\w+(\.\w+)+\w$/;
     return expression.test(email);
 }
 
-// Validate password length
 function validate_password(password) {
     return password.length >= 6;
 }
+
+// Redirect if already logged in
+auth.onAuthStateChanged(user => {
+    if (user && user.emailVerified) {
+        window.location.href = 'dashboard.html';
+    }
+});
