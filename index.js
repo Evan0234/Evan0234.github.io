@@ -12,12 +12,46 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
 
-// Set session persistence
-auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .catch(error => {
-        console.error("Error setting persistence:", error);
-    });
+// Register function
+async function register() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (!validate_email(email) || !validate_password(password)) {
+        alert('Invalid email or password!');
+        return;
+    }
+
+    try {
+        // Get user's IP address
+        const ipResponse = await fetch('https://api.apify.com/v2/browser-info/ip');
+        const ipData = await ipResponse.json();
+        const ipAddress = ipData.ip;
+
+        // Create user and send email verification
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await user.sendEmailVerification();
+        alert('Verification Email Sent. Please verify your email before logging in.');
+
+        // Log user UID and IP address to Firestore
+        await db.collection('userLogs').doc(user.uid).set({
+            uid: user.uid,
+            ip: ipAddress,
+            email: email,
+            signupTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // Sign out the user to require email verification before login
+        await auth.signOut();
+
+    } catch (error) {
+        console.error('Error during registration:', error);
+        alert(error.message);
+    }
+}
 
 // Login function
 function login() {
@@ -40,51 +74,25 @@ function login() {
             }
         })
         .catch(error => {
-            console.error("Error during login:", error);
+            console.error('Error during login:', error);
             alert(error.message);
         });
 }
 
-// Register function
-function register() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    if (!validate_email(email) || !validate_password(password)) {
-        alert('Invalid email or password!');
-        return;
-    }
-
-    auth.createUserWithEmailAndPassword(email, password)
-        .then(userCredential => {
-            const user = userCredential.user;
-            user.sendEmailVerification()
-                .then(() => {
-                    alert('Verification Email Sent. Please verify your email before logging in.');
-                });
-        })
-        .catch(error => {
-            console.error("Error during registration:", error);
-            alert(error.message);
-        });
-}
-
-// Helper functions
+// Validate email format
 function validate_email(email) {
     const expression = /^[^@]+@\w+(\.\w+)+\w$/;
     return expression.test(email);
 }
 
+// Validate password length
 function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect only if logged in and email is verified
+// Redirect to /dashboard if already logged in
 auth.onAuthStateChanged(user => {
-    const currentPath = window.location.pathname;
-    if (user && user.emailVerified && currentPath === '/login') {
+    if (user && user.emailVerified) {
         window.location.href = '/dashboard';
-    } else if ((!user || !user.emailVerified) && currentPath === '/dashboard') {
-        window.location.href = '/login';
     }
 });
