@@ -33,7 +33,7 @@ function login() {
         .then(userCredential => {
             const user = userCredential.user;
             if (user.emailVerified) {
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard';
             } else {
                 alert('Please verify your email before logging in.');
                 auth.signOut();
@@ -79,9 +79,12 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect if already logged in
+// Redirect only if logged in and email is verified
 auth.onAuthStateChanged(user => {
-    if (user && user.emailVerified) {
-        window.location.href = 'dashboard.html';
+    const currentPath = window.location.pathname;
+    if (user && user.emailVerified && currentPath === '/login') {
+        window.location.href = '/dashboard';
+    } else if ((!user || !user.emailVerified) && currentPath === '/dashboard') {
+        window.location.href = '/login';
     }
 });
