@@ -1,9 +1,4 @@
-// Import Firebase functions
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
-
-// Firebase configuration
+// Your Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
     authDomain: "zeeplogin.firebaseapp.com",
@@ -15,14 +10,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Firebase Auth and Firestore
-const auth = getAuth(app);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 // Register function
-async function register() {
+window.register = function() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -31,50 +24,40 @@ async function register() {
         return;
     }
 
-    try {
-        // Get user's IP address
-        const ipResponse = await fetch('https://api64.ipify.org?format=json');
-        const ipData = await ipResponse.json();
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            const user = userCredential.user;
 
-        // Log the user's IP address
-        console.log("User's IP Address:", ipData.ip);
+            // Fetch IP address and log it
+            fetch('https://api64.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ipAddress = data.ip;
+                    console.log("User's IP Address:", ipAddress);
 
-        // Create user and send email verification
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        await user.sendEmailVerification();
-        alert('Verification Email Sent. Please verify your email before logging in.');
-
-        // Log user UID and IP address to Firestore
-        await setDoc(doc(db, "userLogs", user.uid), {
-            uid: user.uid,
-            email: email,
-            ipAddress: ipData.ip, // Store the user's IP address
-            signupTimestamp: serverTimestamp(),
-            country: ipData.country,
-            region: ipData.region,
-            city: ipData.city,
-            zip: ipData.zip,
-            lat: ipData.lat,
-            lon: ipData.lon,
-            timezone: ipData.timezone,
-            isp: ipData.isp,
-            org: ipData.org,
-            as: ipData.as,
-            proxy: ipData.proxy
+                    // Log the user UID and IP address in Firestore
+                    db.collection('users').add({
+                        uid: user.uid,
+                        ip: ipAddress,
+                        timestamp: new Date(),
+                    }).then(() => {
+                        alert('Registration successful!');
+                    }).catch(error => {
+                        console.error('Error logging IP and UID:', error);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching IP address:', error);
+                });
+        })
+        .catch(error => {
+            console.error('Error during registration:', error);
+            alert(error.message);
         });
-
-        // Sign out the user to require email verification before login
-        await auth.signOut();
-
-    } catch (error) {
-        console.error('Error during registration:', error);
-        alert(error.message);
-    }
-}
+};
 
 // Login function
-async function login() {
+window.login = function() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -83,20 +66,25 @@ async function login() {
         return;
     }
 
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        if (user.emailVerified) {
-            window.location.href = '/dashboard'; // Redirect to dashboard
-        } else {
-            alert('Please verify your email before logging in.');
-            await auth.signOut();
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-        alert(error.message);
-    }
-}
+    auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            const user = userCredential.user;
+
+            if (user.emailVerified) {
+                alert('Login Successful!');
+                // Redirect to the correct subdomain dashboard
+                window.location.href = 'https://zeeps.me/dashboard';
+            } else {
+                alert('Please verify your email before logging in.');
+                // Sign out the user if email is not verified
+                auth.signOut();
+            }
+        })
+        .catch(error => {
+            console.error('Error during login:', error);
+            alert(error.message);
+        });
+};
 
 // Validate email format
 function validate_email(email) {
@@ -109,9 +97,14 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect to /dashboard if already logged in
-onAuthStateChanged(auth, user => {
-    if (user && user.emailVerified) {
-        window.location.href = '/dashboard'; // Redirect to dashboard
+// Redirect to dashboard if already logged in
+auth.onAuthStateChanged(user => {
+    if (user) {
+        if (user.emailVerified) {
+            window.location.href = 'https://zeeps.me/dashboard';
+        } else {
+            // If email is not verified, sign them out
+            auth.signOut();
+        }
     }
 });
