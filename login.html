@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <!-- Your CSS file -->
     <link rel="stylesheet" type="text/css" href="index.css">
-    
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js"></script> <!-- If you are using analytics -->
 </head>
 <body>
-    <!-- Your HTML content -->
+    <div class="container">
+        <h1>Login</h1>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="register()">Sign Up</button>
+        <button onclick="login()">Login</button>
+    </div>
     <script src="index.js" type="module"></script>
 </body>
 </html>
