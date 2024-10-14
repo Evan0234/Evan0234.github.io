@@ -50,27 +50,32 @@
     </div>
 
     <script>
-        // Initialize Firebase
-        firebase.initializeApp({
+        // Firebase configuration
+        const firebaseConfig = {
             apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
             authDomain: "zeeplogin.firebaseapp.com",
             projectId: "zeeplogin",
-        });
+            storageBucket: "zeeplogin.appspot.com",
+            messagingSenderId: "343221159933",
+            appId: "1:343221159933:web:e6c3e1e7ec6161a48dfb94",
+            measurementId: "G-DE7X1YKVGY"
+        };
 
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // Check if user is authenticated
+        // Redirect to /login if the user is not authenticated or email is not verified
         auth.onAuthStateChanged(user => {
             if (!user || !user.emailVerified) {
-                alert('You are not logged in or email is not verified. Redirecting to login.');
-                window.location.href = 'login.html';
+                window.location.href = '/login';
             }
         });
 
         // Logout function
         function logout() {
             auth.signOut().then(() => {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
             }).catch(error => {
                 console.error("Logout failed:", error);
             });
