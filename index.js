@@ -11,8 +11,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+// Initialize Firestore
+const db = firebase.firestore();  // Moved this line after firebase.initializeApp
+
 const auth = firebase.auth();
-const db = firebase.firestore();
 
 // Register function
 async function register() {
