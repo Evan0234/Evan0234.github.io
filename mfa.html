@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MFA Setup</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://cdn.rawgit.com/yeojz/otplib/v11.0.0/build/otplib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-qrcode/1.0/jquery.qrcode.min.js"></script>
     <style>
         body {
             display: flex;
@@ -19,6 +22,8 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
+            width: 300px;
+            text-align: center;
         }
         input {
             width: 100%;
@@ -38,16 +43,19 @@
         button:hover {
             background-color: #0056b3;
         }
+        #qrcode {
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
     <div id="mfa-container">
-        <h2>Multi-Factor Authentication</h2>
+        <h2>Set Up Multi-Factor Authentication</h2>
+        <div id="qrcode"></div>
         <input type="text" id="totp" placeholder="Enter TOTP code">
         <button onclick="verifyTOTP()">Verify Code</button>
         <div id="message"></div>
     </div>
-    <script src="https://cdn.rawgit.com/yeojz/otplib/v11.0.0/build/otplib.min.js"></script>
     <script src="mfa.js"></script>
 </body>
 </html>
