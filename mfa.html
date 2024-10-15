@@ -2,16 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Setup MFA</title>
-</head>
-<body>
-    <h2>Setup Multi-Factor Authentication</h2>
-    <input type="text" id="phoneNumber" placeholder="Phone Number">
-    <button onclick="setupMFA()">Setup MFA</button>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFA Setup</title>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="mfa.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <!-- Your MFA JavaScript file -->
+    <script src="mfa.js" defer></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e0f7fa;
+            text-align: center;
+            padding: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3A86FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Setup Multi-Factor Authentication (MFA)</h1>
+    
+    <input type="text" id="phoneNumber" placeholder="Enter your phone number (e.g. +15555555555)">
+    <button onclick="sendVerificationCode()">Send Verification Code</button>
+    
+    <div id="verification-container" style="display:none;">
+        <input type="text" id="verificationCode" placeholder="Enter the verification code">
+        <button onclick="verifyCode()">Verify Code</button>
+    </div>
+
+    <div id="statusMessage"></div>
 </body>
 </html>
