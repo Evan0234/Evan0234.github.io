@@ -16,19 +16,26 @@ if (!firebase.apps.length) {
 }
 
 const auth = firebase.auth();
-
+let confirmationResult; // Holds the confirmation result
 let appVerifier; // Holds the reCAPTCHA verifier
 
 function sendVerificationCode() {
     const phoneNumber = document.getElementById('phoneNumber').value;
-    appVerifier = new firebase.auth.RecaptchaVerifier('sendVerificationCode', {
-        size: 'invisible'
+    
+    // Initialize reCAPTCHA
+    appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': function(response) {
+            // reCAPTCHA solved, will proceed with submit function
+        },
+        'expired-callback': function() {
+            // Response expired. Ask user to solve reCAPTCHA again.
+        }
     });
 
     auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-        .then(confirmationResult => {
-            // SMS sent. Prompt user to enter the code.
-            window.confirmationResult = confirmationResult; // Store the confirmation result
+        .then(result => {
+            confirmationResult = result; // Store the confirmation result
             document.getElementById('verification-container').style.display = 'block';
             document.getElementById('statusMessage').innerText = "Verification code sent!";
         })
