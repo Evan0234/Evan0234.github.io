@@ -1,4 +1,4 @@
-// Your Firebase config (assuming it's already initialized)
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
   authDomain: "zeeplogin.firebaseapp.com",
@@ -40,7 +40,7 @@ function register() {
         });
 }
 
-// Login function
+// Login function with MFA check
 function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -51,16 +51,26 @@ function login() {
     }
 
     auth.signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
+        .then(async (userCredential) => {
             const user = userCredential.user;
 
-            if (user.emailVerified) {
-                alert('Login Successful!');
-                window.location.href = 'https://dashboard.zeeps.me';
-            } else {
+            if (!user.emailVerified) {
                 alert('Please verify your email before logging in.');
                 auth.signOut();
+                return;
             }
+
+            // Check if the user has enrolled in MFA
+            const multiFactorUser = firebase.auth().multiFactor(user);
+            if (multiFactorUser.enrolledFactors.length === 0) {
+                // No MFA setup; redirect to MFA setup page
+                alert('MFA setup is required. Redirecting to MFA setup page.');
+                window.location.href = 'mfa.html';
+                return;
+            }
+
+            alert('Login Successful!');
+            window.location.href = 'https://dashboard.zeeps.me';
         })
         .catch(error => {
             console.error('Error during login:', error);
@@ -79,7 +89,7 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect to dashboard if already logged in
+// Redirect to dashboard if already logged in and verified
 auth.onAuthStateChanged(user => {
     if (user && user.emailVerified) {
         window.location.href = 'https://dashboard.zeeps.me';
