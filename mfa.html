@@ -8,7 +8,6 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
     <!-- Your MFA JavaScript file -->
     <script src="mfa.js" defer></script>
@@ -44,7 +43,7 @@
     <h1>Setup Multi-Factor Authentication (MFA)</h1>
     
     <input type="text" id="phoneNumber" placeholder="Enter your phone number (e.g. +15555555555)">
-    <button onclick="sendVerificationCode()">Send Verification Code</button>
+    <button id="sendVerificationCode" onclick="sendVerificationCode()">Send Verification Code</button>
     
     <div id="verification-container" style="display:none;">
         <input type="text" id="verificationCode" placeholder="Enter the verification code">
@@ -52,5 +51,8 @@
     </div>
 
     <div id="statusMessage"></div>
+
+    <!-- reCAPTCHA Placeholder -->
+    <div id="recaptcha-container"></div>
 </body>
 </html>
