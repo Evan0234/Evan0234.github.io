@@ -4,55 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MFA Setup</title>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-
-    <!-- Your MFA JavaScript file -->
-    <script src="mfa.js" defer></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #e0f7fa;
-            text-align: center;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: 'Montserrat', sans-serif;
         }
-        input[type="text"] {
+        #mfa-container {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        input {
+            width: 100%;
             padding: 10px;
-            width: 300px;
-            margin: 10px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         button {
-            padding: 10px 20px;
-            background-color: #3A86FF;
+            padding: 10px;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #007BFF;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Setup Multi-Factor Authentication (MFA)</h1>
-    
-    <input type="text" id="phoneNumber" placeholder="Enter your phone number (e.g. +15555555555)">
-    <button id="sendVerificationCode" onclick="sendVerificationCode()">Send Verification Code</button>
-    
-    <div id="verification-container" style="display:none;">
-        <input type="text" id="verificationCode" placeholder="Enter the verification code">
-        <button onclick="verifyCode()">Verify Code</button>
+    <div id="mfa-container">
+        <h2>Multi-Factor Authentication</h2>
+        <input type="text" id="totp" placeholder="Enter TOTP code">
+        <button onclick="verifyTOTP()">Verify Code</button>
+        <div id="message"></div>
     </div>
-
-    <div id="statusMessage"></div>
-
-    <!-- reCAPTCHA Placeholder -->
-    <div id="recaptcha-container"></div>
+    <script src="https://cdn.rawgit.com/yeojz/otplib/v11.0.0/build/otplib.min.js"></script>
+    <script src="mfa.js"></script>
 </body>
 </html>
